@@ -1,0 +1,57 @@
+classe _Gerente filha da classe _Funcionario & classe _Entregador filha da classe _Funcionario;
+
+classe _Funcionario
+inicio
+	var real salario;
+
+	procedimento setSalario(real novo_salario)
+	salario := novo_salario;
+
+	funcao real calcularSalario();
+fim
+
+classe _Gerente
+inicio
+	var real bonus;
+
+	procedimento setBonus(real novo_bonus)
+		bonus := novo_bonus;
+
+	funcao real calcularSalario() (salario + bonus)
+fim
+início
+classe _Entregador
+inicio
+	var real horas_rodadas;
+	var real valor_hora;
+
+	procedimento setHoras_Rodadas(real horas)
+		horas_rodadas := horas;
+
+	procedimento setValor_Hora(real novo_valor_hora)
+		valor_hora := novo_valor_hora;
+
+	funcao real calcularSalario() (horas_rodadas * valor_hora)
+fim
+
+classe _Principal
+inicio
+	objeto _ES interface;
+
+	>>> procedimento principal ()
+	inicio
+		objeto _Gerente gerente;
+		gerente.setSalario(3000,00);
+		gerente.setBonus(600,00)
+		var real salario_gerente:= gerente.calcularSalario();
+
+		interface.imprime(salario_gerente);
+
+		objeto _Entregador entregador;
+		entregador.setHoras_Rodadas(200,00);
+		entregador.setValor_Hora(10,00);
+		var real salario_entregador := entregador.calcularSalario();
+
+		interface.imprime(salario_entregador);
+	fim
+fim

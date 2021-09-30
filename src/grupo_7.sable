@@ -1,0 +1,60 @@
+Package jaca;
+
+Helpers
+ digito = ['0' .. '9'];
+ letra = ['A' .. 'Z'] | ['a' .. 'z'];
+ espaco = ' ';
+ rc = 13;
+ nl = 10;
+ tab = 09;
+ underline = '_';
+ letras_acent = 'г' | 'б' | 'а' | 'в' | 'Г' | 'Б' | 'А' | 'В' | 'й' | 'и' | 'к' | 'Й' | 'И' | 'К' | 'н' | 'м' | 'о' | 'Н' | 'М' | 'О' | 'х' | 'у' | 'т' | 'ф' | 'Х' | 'У' | 'Т' | 'Ф' | 'ъ' | 'щ' | 'ы' | 'Ъ' | 'Щ' | 'Ы' | 'з';
+ palavra = (letra | letras_acent);
+ tudo = [0x0 .. 0xfffff];
+  
+ 
+Tokens
+ relacao = '&';
+ ponto_virgula = ';';
+ atribuicao = ':=';
+ inicio_proced = '>>>';
+ par_esq = '(';
+ par_dir = ')';
+ virgula = ',';
+ ponto = '.';
+ mais = '+';
+ menos = '-';
+ mult = '*';
+ div = '/';
+ mod = '%';
+ igual = '==';
+ menor = '<';
+ menor_igual = '<=';
+ negacao = '!';
+ classe = 'classe';
+ verdade = 'verdade';
+ falso = 'falso';
+ se = 'se';
+ senao = 'senгo';
+ enquanto = 'enquanto';
+ proced = 'procedimento';
+ func = 'funзгo';
+ tipo_bool = 'bool';
+ tipo_real = 'real';
+ heranca = 'filha da classe';
+ bloc_inicio = 'inнcio';
+ bloc_fim = 'fim';
+ tipo_objeto = 'objeto';
+ variavel = 'var';
+ constante = 'const';
+ vazio = (espaco | rc | nl | tab)+;
+ id_var = palavra(palavra | underline)+;
+ id_class = underline(palavra | underline)+;
+ and = 'e';
+ or = 'ou';
+ numero_real = digito+(',')(digito)+ | digito+('E'| 'e')('-')(digito)+;
+ 
+ 
+ Ignored Tokens
+  vazio;
+  
