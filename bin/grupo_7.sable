@@ -9,11 +9,16 @@ Helpers
  tab = 09;
  underline = '_';
  letras_acent = 'ã' | 'á' | 'à' | 'â' | 'Ã' | 'Á' | 'À' | 'Â' | 'é' | 'è' | 'ê' | 'É' | 'È' | 'Ê' | 'í' | 'ì' | 'î' | 'Í' | 'Ì' | 'Î' | 'õ' | 'ó' | 'ò' | 'ô' | 'Õ' | 'Ó' | 'Ò' | 'Ô' | 'ú' | 'ù' | 'û' | 'Ú' | 'Ù' | 'Û' | 'ç';
- palavra = (letra | letras_acent);
+ palavra = letra  | letras_acent;
  tudo = [0x0 .. 0xfffff];
-  
+ quase_tudo_bloco = [ tudo - '}' ];
+ quase_tudo_linha = [ tudo - nl ];
  
 Tokens
+ metodo_imprime = '.imprime';
+ metodo_le = '.le';
+ comentario = '#'(quase_tudo_linha)*;
+ comentario_bloco = '{'(quase_tudo_bloco)*'}';
  relacao = '&';
  ponto_virgula = ';';
  atribuicao = ':=';
@@ -31,6 +36,8 @@ Tokens
  menor = '<';
  menor_igual = '<=';
  negacao = '!';
+ inicio = 'início';
+ fim = 'fim';
  classe = 'classe';
  verdade = 'verdade';
  falso = 'falso';
@@ -42,13 +49,11 @@ Tokens
  tipo_bool = 'bool';
  tipo_real = 'real';
  heranca = 'filha da classe';
- bloc_inicio = 'início';
- bloc_fim = 'fim';
  tipo_objeto = 'objeto';
  variavel = 'var';
  constante = 'const';
  vazio = (espaco | rc | nl | tab)+;
- id_var = palavra(palavra | underline)+;
+ id = palavra(palavra | underline)+;
  id_class = underline(palavra | underline)+;
  and = 'e';
  or = 'ou';
@@ -56,5 +61,7 @@ Tokens
  
  
  Ignored Tokens
+  comentario,
+  comentario_bloco,
   vazio;
   

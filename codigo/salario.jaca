@@ -1,3 +1,10 @@
+var real conta corrente
+@
+#Programa de calcular salario
+{Outro comentário
+abjbibidfbjbsdjf
+	dfhjhfiohsdfjsdj}
+
 classe _Gerente filha da classe _Funcionario & classe _Entregador filha da classe _Funcionario;
 
 classe _Funcionario
@@ -19,7 +26,7 @@ inicio
 
 	funcao real calcularSalario() (salario + bonus)
 fim
-início
+
 classe _Entregador
 inicio
 	var real horas_rodadas;
