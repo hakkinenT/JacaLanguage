@@ -1,0 +1,1 @@
+classe _Humano filha da classe _Animal & classe _Cachorro filha da classe _Animal;

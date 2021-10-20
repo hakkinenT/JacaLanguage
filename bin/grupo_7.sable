@@ -8,18 +8,41 @@ Helpers
  nl = 10;
  tab = 09;
  underline = '_';
- letras_acent = 'ã' | 'á' | 'à' | 'â' | 'Ã' | 'Á' | 'À' | 'Â' | 'é' | 'è' | 'ê' | 'É' | 'È' | 'Ê' | 'í' | 'ì' | 'î' | 'Í' | 'Ì' | 'Î' | 'õ' | 'ó' | 'ò' | 'ô' | 'Õ' | 'Ó' | 'Ò' | 'Ô' | 'ú' | 'ù' | 'û' | 'Ú' | 'Ù' | 'Û' | 'ç';
- palavra = letra  | letras_acent;
+ letra_acent = 'Ã¡' | 'Ã ' | 'Ã¢' | 'Ã£' | 'Ã©' | 'Ã¨' | 'Ãª' | 'Ã­' | 'Ã¬' | 'Ã®' | 'Ã³' | 'Ã²' | 'Ã´' | 'Ãµ' | 'Ãº' | 'Ã¹' | 'Ã»' | 'Ã' | 'Ã€' | 'Ã‚' | 'Ãƒ' | 'Ã‰' | 'Ãˆ' | 'ÃŠ' | 'Ã' | 'ÃŒ' | 'ÃŽ' | 'Ã“' | 'Ã’' | 'Ã”' | 'Ã•' | 'Ãš' | 'Ã™' | 'Ã›' | 'Ã§' | 'Ã‡';
+ caractere = letra  | letra_acent;
  tudo = [0x0 .. 0xfffff];
  quase_tudo_bloco = [ tudo - '}' ];
  quase_tudo_linha = [ tudo - nl ];
  
 Tokens
+ /* reservadas */
+ 
+ inicio = 'inÃ­cio';
+ fim = 'fim';
+ classe = 'classe';
+ verdade = 'verdade';
+ falso = 'falso';
+ se = 'se';
+ senao = 'senÃ£o';
+ enquanto = 'enquanto';
+ procedimento = 'procedimento';
+ funcao = 'funÃ§Ã£o';
+ tipo_bool = 'bool';
+ tipo_real = 'real';
+ heranca = 'filha da classe';
+ objeto = 'objeto';
+ variavel = 'var';
+ constante = 'const';
+ e_logico = 'e';
+ ou_logico = 'ou';
  metodo_imprime = '.imprime';
- metodo_le = '.le';
+ metodo_le = '.lÃª';
  comentario = '#'(quase_tudo_linha)*;
  comentario_bloco = '{'(quase_tudo_bloco)*'}';
- relacao = '&';
+ 
+ /*Simbolos*/
+ 
+ relacao_symbol = '&';
  ponto_virgula = ';';
  atribuicao = ':=';
  inicio_proced = '>>>';
@@ -27,7 +50,7 @@ Tokens
  par_dir = ')';
  virgula = ',';
  ponto = '.';
- mais = '+';
+ soma = '+';
  menos = '-';
  mult = '*';
  div = '/';
@@ -36,27 +59,10 @@ Tokens
  menor = '<';
  menor_igual = '<=';
  negacao = '!';
- inicio = 'início';
- fim = 'fim';
- classe = 'classe';
- verdade = 'verdade';
- falso = 'falso';
- se = 'se';
- senao = 'senão';
- enquanto = 'enquanto';
- proced = 'procedimento';
- func = 'função';
- tipo_bool = 'bool';
- tipo_real = 'real';
- heranca = 'filha da classe';
- tipo_objeto = 'objeto';
- variavel = 'var';
- constante = 'const';
+ 
  vazio = (espaco | rc | nl | tab)+;
- id = palavra(palavra | underline)+;
- id_class = underline(palavra | underline)+;
- and = 'e';
- or = 'ou';
+ id = caractere(caractere | underline)*;
+ id_class = underline(caractere | underline)*;
  numero_real = digito+(',')(digito)+ | digito+('E'| 'e')('-')(digito)+;
  
  
@@ -65,3 +71,112 @@ Tokens
   comentario_bloco,
   vazio;
   
+ Productions
+ 
+ programa = familia def_classe*;
+ 
+ familia = relacao lista_relacoes* ponto_virgula;
+ 
+ lista_relacoes =
+ 	{relacoes} relacao_symbol relacao; 
+ 
+ relacao = classe [a]:id_class heranca [b]:id_class;
+ 
+ def_classe = classe id_class inicio atributos metodos fim;
+ 
+ atributos = 
+ 	{dec_obj} dec_obj
+   |{dec_var} dec_var
+   |{dec_const} dec_const;
+ 
+ metodos = 
+ 	{dec_procedimento} dec_procedimento
+   |{dec_funcao} dec_funcao;
+ 
+ dec_obj = 
+ 	{obj} objeto tipo_classe id ponto_virgula;
+ 
+ dec_var =
+ 	{var} variavel tipo_primitivo id ponto_virgula;
+ 	
+ dec_const = 
+ 	{const} constante tipo_primitivo inicializacao ponto_virgula;
+ 
+ inicializacao = 
+    {init} id atribuicao expr;
+  
+ tipo =
+ 	{tipo_classe} tipo_classe
+   |{tipo_primitivo} tipo_primitivo;
+ 
+ tipo_classe = 
+ 	{classe} id_class;
+ 
+ tipo_primitivo =
+ 	{real} tipo_real
+   |{bool} tipo_bool;
+   
+ dec_procedimento =
+ 	{principal} inicio_proced procedimento id par_esq parametros par_dir comando
+   |{procedimento} procedimento id par_esq parametros par_dir ponto_virgula;
+ 
+ dec_funcao =
+ 	{funcao_completa} funcao tipo id par_esq parametros par_dir expr
+   |{funcao} funcao tipo id par_esq parametros par_dir ponto_virgula;
+ 
+ parametros =
+ 	{params} parametro*;
+ 	
+ list_param =
+ 	{lista} virgula parametro;
+ 	
+ parametro = 
+ 	{param} tipo id;
+ 
+ comando =
+ 	{se} se par_esq expr par_dir comando
+   |{equanto} par_esq expr par_dir comando
+   |{atbr} id atribuicao expr
+   |{chamada_metd} id ponto chamada
+   |{bloco} bloco;
+ 
+ bloco = 
+ 	{iniciar_bloco}inicio tipo_decl* comando* fim;
+ 
+ tipo_decl =
+ 	{dec_obj} dec_obj
+   |{dec_var} dec_var
+   |{dec_const} dec_const;
+ 
+ expr =
+   {fator} fator 
+  |{soma} expr soma fator 
+  |{menos} expr menos fator;
+
+ fator =
+   {termo} termo 
+  |{mult} fator mult termo 
+  |{div} fator div termo 
+  |{mod} fator mod termo;
+  
+ termo =
+   {numero} numero_real 
+  |{par} par_esq expr par_dir;
+ 
+ bloco_exp =
+ 	{bloco} inicio dec_const* expr fim;
+ 	
+ chamada = 
+ 	{chamada_metodo} id par_esq lista_expr par_dir;
+ 
+ atributo =
+ 	{id} id;
+ 	
+ lista_expr =
+ 	{expressoes} expr exprs*;
+ 	
+ exprs = 
+ 	{lista} virgula expr; 
+ 
+  
+ 

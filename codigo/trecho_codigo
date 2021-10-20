@@ -1,0 +1,31 @@
+
+
+
+expr =
+ 	{fator} fator
+   |{soma} expr mais fator
+   |{subt} expr menos fator
+   |{menor_que} expr menor fator
+   |{menor_igual} expr menor_igual fator
+   |{e_logico} expr e_logico fator
+   |{ou_logico} expr ou_logico fator
+   |{igual} expr igual fator
+   |{negacao} negacao expr
+   |{menos} menos expr
+   |{id} id
+   |{id_class} id_class
+   |{chamada} [a]:id ponto [b]:id ponto_virgula;
+   
+ fator =
+ 	{termo} termo
+   |{mult} fator mult termo
+   |{div} fator div termo
+   |{mod} fator mod termo;
+ 	
+ termo =
+ 	{valor_real} numero_real
+   |{par} par_esq expr par_dir;
+   
+ valor_bool =
+    {verdade} verdade
+   |{falso} falso;

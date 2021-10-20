@@ -1,64 +1,56 @@
-var real conta corrente
-@
-#Programa de calcular salario
-{Outro comentário
-abjbibidfbjbsdjf
-	dfhjhfiohsdfjsdj}
 
-classe _Gerente filha da classe _Funcionario & classe _Entregador filha da classe _Funcionario;
+{Programa para calcular o valor das compras numa floricultura,
+levando em conta descontos baseados na quantidade
+e na forma de pagamento}
 
-classe _Funcionario
-inicio
-	var real salario;
-
-	procedimento setSalario(real novo_salario)
-	salario := novo_salario;
-
-	funcao real calcularSalario();
-fim
-
-classe _Gerente
-inicio
-	var real bonus;
-
-	procedimento setBonus(real novo_bonus)
-		bonus := novo_bonus;
-
-	funcao real calcularSalario() (salario + bonus)
-fim
-
-classe _Entregador
-inicio
-	var real horas_rodadas;
-	var real valor_hora;
-
-	procedimento setHoras_Rodadas(real horas)
-		horas_rodadas := horas;
-
-	procedimento setValor_Hora(real novo_valor_hora)
-		valor_hora := novo_valor_hora;
-
-	funcao real calcularSalario() (horas_rodadas * valor_hora)
-fim
+funcao real dinheiro_debito () (valor - ( quantidade / 2,0 ))
 
 classe _Principal
 inicio
+
 	objeto _ES interface;
-
 	>>> procedimento principal ()
+	inicio	
+		var real quantidade;
+		var real tipo_pag; 
+		var real tipo_flor;
+		var real valor;
+		var bool fimdesemana;
+
+	quantidade := interface.le();
+	tipo_flor := interface.le();
+		enquanto (quantidade < 0,0 ou tipo_flor < 1,0 ou 4,0 < tipo_flor)
+		inicio
+			quantidade := interface.le();
+			tipo_flor := interface.le();
+		fim
+		se (tipo_flor == 1,0 e 31,0 <= quantidade)
+			valor := (quantidade * 3,50)
+		se (tipo_flor == 1,0 e quantidade < 30,0)
+			valor := (quantidade * 4,0)
+		
+		se (tipo_flor == 2,0)
+			valor := (quantidade * 5,0)
+
+		se (tipo_flor == 3,0 e quantidade < 20,0)
+			valor := (quantidade * 7,50)
+		se (tipo_flor == 3,0 e 21,0 <= quantidade)
+			valor := (quantidade * 7,0)
+		senao 
+		inicio
+			valor := (quantidade * 15,0)
+		fim
+
+	tipo_pag := interface.le() #Para saber se irá usar crédito ou débito/dinheiro
+	se (tipo_pag == 0,0)
 	inicio
-		objeto _Gerente gerente;
-		gerente.setSalario(3000,00);
-		gerente.setBonus(600,00)
-		var real salario_gerente:= gerente.calcularSalario();
-
-		interface.imprime(salario_gerente);
-
-		objeto _Entregador entregador;
-		entregador.setHoras_Rodadas(200,00);
-		entregador.setValor_Hora(10,00);
-		var real salario_entregador := entregador.calcularSalario();
-
-		interface.imprime(salario_entregador);
+		var real valor_final;
+		valor_final := dinheiro_debito();
+		interface.imprime(valor_final);
+	fim	
+	senao 
+	inicio
+		interface.imprime(valor);
 	fim
+
 fim
