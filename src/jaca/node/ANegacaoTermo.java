@@ -5,22 +5,22 @@ package jaca.node;
 import jaca.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AMenosExpr extends PExpr
+public final class ANegacaoTermo extends PTermo
 {
-    private TMenos _menos_;
+    private TNegacao _negacao_;
     private PExpr _expr_;
 
-    public AMenosExpr()
+    public ANegacaoTermo()
     {
         // Constructor
     }
 
-    public AMenosExpr(
-        @SuppressWarnings("hiding") TMenos _menos_,
+    public ANegacaoTermo(
+        @SuppressWarnings("hiding") TNegacao _negacao_,
         @SuppressWarnings("hiding") PExpr _expr_)
     {
         // Constructor
-        setMenos(_menos_);
+        setNegacao(_negacao_);
 
         setExpr(_expr_);
 
@@ -29,27 +29,27 @@ public final class AMenosExpr extends PExpr
     @Override
     public Object clone()
     {
-        return new AMenosExpr(
-            cloneNode(this._menos_),
+        return new ANegacaoTermo(
+            cloneNode(this._negacao_),
             cloneNode(this._expr_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAMenosExpr(this);
+        ((Analysis) sw).caseANegacaoTermo(this);
     }
 
-    public TMenos getMenos()
+    public TNegacao getNegacao()
     {
-        return this._menos_;
+        return this._negacao_;
     }
 
-    public void setMenos(TMenos node)
+    public void setNegacao(TNegacao node)
     {
-        if(this._menos_ != null)
+        if(this._negacao_ != null)
         {
-            this._menos_.parent(null);
+            this._negacao_.parent(null);
         }
 
         if(node != null)
@@ -62,7 +62,7 @@ public final class AMenosExpr extends PExpr
             node.parent(this);
         }
 
-        this._menos_ = node;
+        this._negacao_ = node;
     }
 
     public PExpr getExpr()
@@ -94,7 +94,7 @@ public final class AMenosExpr extends PExpr
     public String toString()
     {
         return ""
-            + toString(this._menos_)
+            + toString(this._negacao_)
             + toString(this._expr_);
     }
 
@@ -102,9 +102,9 @@ public final class AMenosExpr extends PExpr
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._menos_ == child)
+        if(this._negacao_ == child)
         {
-            this._menos_ = null;
+            this._negacao_ = null;
             return;
         }
 
@@ -121,9 +121,9 @@ public final class AMenosExpr extends PExpr
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._menos_ == oldChild)
+        if(this._negacao_ == oldChild)
         {
-            setMenos((TMenos) newChild);
+            setNegacao((TNegacao) newChild);
             return;
         }
 

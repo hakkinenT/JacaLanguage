@@ -9,12 +9,12 @@ public final class TInicio extends Token
 {
     public TInicio()
     {
-        super.setText("início");
+        super.setText("inicio");
     }
 
     public TInicio(int line, int pos)
     {
-        super.setText("início");
+        super.setText("inicio");
         setLine(line);
         setPos(pos);
     }

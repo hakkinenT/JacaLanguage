@@ -7,7 +7,7 @@ import jaca.analysis.*;
 @SuppressWarnings("nls")
 public final class Start extends Node
 {
-    private PPrograma _pPrograma_;
+    private PExpr _pExpr_;
     private EOF _eof_;
 
     public Start()
@@ -16,10 +16,10 @@ public final class Start extends Node
     }
 
     public Start(
-        @SuppressWarnings("hiding") PPrograma _pPrograma_,
+        @SuppressWarnings("hiding") PExpr _pExpr_,
         @SuppressWarnings("hiding") EOF _eof_)
     {
-        setPPrograma(_pPrograma_);
+        setPExpr(_pExpr_);
         setEOF(_eof_);
     }
 
@@ -27,7 +27,7 @@ public final class Start extends Node
     public Object clone()
     {
         return new Start(
-            cloneNode(this._pPrograma_),
+            cloneNode(this._pExpr_),
             cloneNode(this._eof_));
     }
 
@@ -37,16 +37,16 @@ public final class Start extends Node
         ((Analysis) sw).caseStart(this);
     }
 
-    public PPrograma getPPrograma()
+    public PExpr getPExpr()
     {
-        return this._pPrograma_;
+        return this._pExpr_;
     }
 
-    public void setPPrograma(PPrograma node)
+    public void setPExpr(PExpr node)
     {
-        if(this._pPrograma_ != null)
+        if(this._pExpr_ != null)
         {
-            this._pPrograma_.parent(null);
+            this._pExpr_.parent(null);
         }
 
         if(node != null)
@@ -59,7 +59,7 @@ public final class Start extends Node
             node.parent(this);
         }
 
-        this._pPrograma_ = node;
+        this._pExpr_ = node;
     }
 
     public EOF getEOF()
@@ -90,9 +90,9 @@ public final class Start extends Node
     @Override
     void removeChild(Node child)
     {
-        if(this._pPrograma_ == child)
+        if(this._pExpr_ == child)
         {
-            this._pPrograma_ = null;
+            this._pExpr_ = null;
             return;
         }
 
@@ -108,9 +108,9 @@ public final class Start extends Node
     @Override
     void replaceChild(Node oldChild, Node newChild)
     {
-        if(this._pPrograma_ == oldChild)
+        if(this._pExpr_ == oldChild)
         {
-            setPPrograma((PPrograma) newChild);
+            setPExpr((PExpr) newChild);
             return;
         }
 
@@ -127,7 +127,7 @@ public final class Start extends Node
     public String toString()
     {
         return "" +
-            toString(this._pPrograma_) +
+            toString(this._pExpr_) +
             toString(this._eof_);
     }
 }

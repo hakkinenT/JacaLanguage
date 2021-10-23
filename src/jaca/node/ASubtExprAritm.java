@@ -5,39 +5,69 @@ package jaca.node;
 import jaca.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AMenosExpr extends PExpr
+public final class ASubtExprAritm extends PExprAritm
 {
+    private PExprAritm _exprAritm_;
     private TMenos _menos_;
-    private PExpr _expr_;
+    private PFator _fator_;
 
-    public AMenosExpr()
+    public ASubtExprAritm()
     {
         // Constructor
     }
 
-    public AMenosExpr(
+    public ASubtExprAritm(
+        @SuppressWarnings("hiding") PExprAritm _exprAritm_,
         @SuppressWarnings("hiding") TMenos _menos_,
-        @SuppressWarnings("hiding") PExpr _expr_)
+        @SuppressWarnings("hiding") PFator _fator_)
     {
         // Constructor
+        setExprAritm(_exprAritm_);
+
         setMenos(_menos_);
 
-        setExpr(_expr_);
+        setFator(_fator_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AMenosExpr(
+        return new ASubtExprAritm(
+            cloneNode(this._exprAritm_),
             cloneNode(this._menos_),
-            cloneNode(this._expr_));
+            cloneNode(this._fator_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAMenosExpr(this);
+        ((Analysis) sw).caseASubtExprAritm(this);
+    }
+
+    public PExprAritm getExprAritm()
+    {
+        return this._exprAritm_;
+    }
+
+    public void setExprAritm(PExprAritm node)
+    {
+        if(this._exprAritm_ != null)
+        {
+            this._exprAritm_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._exprAritm_ = node;
     }
 
     public TMenos getMenos()
@@ -65,16 +95,16 @@ public final class AMenosExpr extends PExpr
         this._menos_ = node;
     }
 
-    public PExpr getExpr()
+    public PFator getFator()
     {
-        return this._expr_;
+        return this._fator_;
     }
 
-    public void setExpr(PExpr node)
+    public void setFator(PFator node)
     {
-        if(this._expr_ != null)
+        if(this._fator_ != null)
         {
-            this._expr_.parent(null);
+            this._fator_.parent(null);
         }
 
         if(node != null)
@@ -87,30 +117,37 @@ public final class AMenosExpr extends PExpr
             node.parent(this);
         }
 
-        this._expr_ = node;
+        this._fator_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
+            + toString(this._exprAritm_)
             + toString(this._menos_)
-            + toString(this._expr_);
+            + toString(this._fator_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
+        if(this._exprAritm_ == child)
+        {
+            this._exprAritm_ = null;
+            return;
+        }
+
         if(this._menos_ == child)
         {
             this._menos_ = null;
             return;
         }
 
-        if(this._expr_ == child)
+        if(this._fator_ == child)
         {
-            this._expr_ = null;
+            this._fator_ = null;
             return;
         }
 
@@ -121,15 +158,21 @@ public final class AMenosExpr extends PExpr
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
+        if(this._exprAritm_ == oldChild)
+        {
+            setExprAritm((PExprAritm) newChild);
+            return;
+        }
+
         if(this._menos_ == oldChild)
         {
             setMenos((TMenos) newChild);
             return;
         }
 
-        if(this._expr_ == oldChild)
+        if(this._fator_ == oldChild)
         {
-            setExpr((PExpr) newChild);
+            setFator((PFator) newChild);
             return;
         }
 

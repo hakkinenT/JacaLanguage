@@ -17,7 +17,7 @@ Helpers
 Tokens
  /* reservadas */
  
- inicio = 'início';
+ inicio = 'inicio';
  fim = 'fim';
  classe = 'classe';
  verdade = 'verdade';
@@ -26,7 +26,7 @@ Tokens
  senao = 'senão';
  enquanto = 'enquanto';
  procedimento = 'procedimento';
- funcao = 'função';
+ funcao = 'funcao';
  tipo_bool = 'bool';
  tipo_real = 'real';
  heranca = 'filha da classe';
@@ -63,7 +63,7 @@ Tokens
  vazio = (espaco | rc | nl | tab)+;
  id = caractere(caractere | underline)*;
  id_class = underline(caractere | underline)*;
- numero_real = digito+(',')(digito)+ | digito+('E'| 'e')('-')(digito)+;
+ numero_real = digito+ | digito+(',')(digito)+ | digito+('E'| 'e')('-')(digito)+;
  
  
  Ignored Tokens
@@ -72,7 +72,7 @@ Tokens
   vazio;
   
  Productions
- 
+ /*
  programa = familia def_classe*;
  
  familia = relacao lista_relacoes* ponto_virgula;
@@ -147,25 +147,47 @@ Tokens
  	{dec_obj} dec_obj
    |{dec_var} dec_var
    |{dec_const} dec_const;
- 
+ */
  expr =
-   {fator} fator 
-  |{soma} expr soma fator 
-  |{menos} expr menos fator;
-
- fator =
-   {termo} termo 
-  |{mult} fator mult termo 
-  |{div} fator div termo 
-  |{mod} fator mod termo;
+ 	{expr_relacional} expr_relacional
+   |{menos} menos expr
+   |{chamada_atrb} id ponto atributo ponto_virgula
+   |{chamada_metd} id ponto chamada ponto_virgula
+   |{e_logico} expr e_logico expr_relacional
+   |{ou_logico} expr ou_logico expr_relacional;
   
- termo =
-   {numero} numero_real 
-  |{par} par_esq expr par_dir;
+ 	
+ expr_relacional =
+ 	{expr_aritm} expr_aritm
+   |{menor_que} expr_relacional menor expr_aritm
+   |{menor_igual} expr_relacional menor_igual expr_aritm
+   |{igual} expr_relacional igual expr_aritm;
+   
  
+ expr_aritm = 
+ 	{fator} fator
+   |{soma} expr_aritm soma fator
+   |{subt} expr_aritm menos fator;
+   
+   
+ fator =
+ 	{termo} termo
+   |{mult} fator mult termo
+   |{div} fator div termo
+   |{mod} fator mod termo;
+   	
+ termo =
+ 	{valor_real} numero_real
+   |{par} par_esq expr par_dir
+   |{negacao} negacao expr;
+   
+ valor_bool =
+    {verdade} verdade
+   |{falso} falso;
+ /*  
  bloco_exp =
  	{bloco} inicio dec_const* expr fim;
- 	
+ */	
  chamada = 
  	{chamada_metodo} id par_esq lista_expr par_dir;
  
@@ -176,7 +198,5 @@ Tokens
  	{expressoes} expr exprs*;
  	
  exprs = 
- 	{lista} virgula expr; 
- 
-  
+ 	{lista} virgula expr;
  
