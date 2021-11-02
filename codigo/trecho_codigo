@@ -1,6 +1,4 @@
-
-
-
+Versão 1
 expr =
  	{fator} fator
    |{soma} expr mais fator
@@ -29,3 +27,78 @@ expr =
  valor_bool =
     {verdade} verdade
    |{falso} falso;
+   
+ Versão 2
+ expr =
+ 	{expr_relacional} expr_relacional
+   |{menos} menos expr
+   |{chamada_atrb} id ponto atributo ponto_virgula
+   |{chamada_metd} id ponto chamada ponto_virgula
+   |{e_logico} expr e_logico expr_relacional
+   |{ou_logico} expr ou_logico expr_relacional;
+  
+ 	
+ expr_relacional =
+ 	{expr_aritm} expr_aritm
+   |{menor_que} expr_relacional menor expr_aritm
+   |{menor_igual} expr_relacional menor_igual expr_aritm
+   |{igual} expr_relacional igual expr_aritm;
+   
+ 
+ expr_aritm = 
+ 	{fator} fator
+   |{soma} expr_aritm soma fator
+   |{subt} expr_aritm menos fator;
+   
+   
+ fator =
+ 	{termo} termo
+   |{mult} fator mult termo
+   |{div} fator div termo
+   |{mod} fator mod termo;
+   	
+ termo =
+ 	{valor_real} numero_real
+   |{par} par_esq expr par_dir
+   |{negacao} negacao expr;
+   
+ Versão 3
+ 
+ expr =
+ 	{expr_arit} expr_arit
+   |{expr_relacional} expr_relacional;
+
+expr_relacional =
+ 	{termo_r} termo_r
+   |{igual} expr_relacional igual termo_r;
+   
+ termo_r =
+ 	{fator} fator_r
+   |{menor} termo_r menor fator_r
+   |{menor_igual} termo_r menor_igual fator_r;
+   
+ fator_r =
+ 	{id} id
+   |{n_real} numero_real;
+ 	
+ expr_arit =
+ 	{termo} termo
+   |{soma} expr soma termo
+   |{menos} expr menos termo;
+ 	
+ termo =
+ 	{fator} fator
+   |{mult} termo mult fator
+   |{div} termo div fator
+   |{mod} termo mod fator;
+   
+   
+ fator =
+ 	{identifier} id
+   |{n_real} numero_real
+   |{chamada_metd} id ponto chamada ponto_virgula
+   |{chamada_atributo} id ponto atributo ponto_virgula
+   |{par} par_esq expr par_dir;
+   
+ 
+ 

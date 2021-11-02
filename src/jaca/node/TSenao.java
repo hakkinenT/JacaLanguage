@@ -9,12 +9,12 @@ public final class TSenao extends Token
 {
     public TSenao()
     {
-        super.setText("sen√£o");
+        super.setText("sen„o");
     }
 
     public TSenao(int line, int pos)
     {
-        super.setText("sen√£o");
+        super.setText("sen„o");
         setLine(line);
         setPos(pos);
     }

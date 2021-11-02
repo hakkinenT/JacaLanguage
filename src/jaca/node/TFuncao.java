@@ -9,12 +9,12 @@ public final class TFuncao extends Token
 {
     public TFuncao()
     {
-        super.setText("funcao");
+        super.setText("função");
     }
 
     public TFuncao(int line, int pos)
     {
-        super.setText("funcao");
+        super.setText("função");
         setLine(line);
         setPos(pos);
     }

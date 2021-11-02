@@ -7,7 +7,7 @@ import jaca.analysis.*;
 @SuppressWarnings("nls")
 public final class AListaExprs extends PExprs
 {
-    private TVirgula _virgula_;
+    private TBarra _barra_;
     private PExpr _expr_;
 
     public AListaExprs()
@@ -16,11 +16,11 @@ public final class AListaExprs extends PExprs
     }
 
     public AListaExprs(
-        @SuppressWarnings("hiding") TVirgula _virgula_,
+        @SuppressWarnings("hiding") TBarra _barra_,
         @SuppressWarnings("hiding") PExpr _expr_)
     {
         // Constructor
-        setVirgula(_virgula_);
+        setBarra(_barra_);
 
         setExpr(_expr_);
 
@@ -30,7 +30,7 @@ public final class AListaExprs extends PExprs
     public Object clone()
     {
         return new AListaExprs(
-            cloneNode(this._virgula_),
+            cloneNode(this._barra_),
             cloneNode(this._expr_));
     }
 
@@ -40,16 +40,16 @@ public final class AListaExprs extends PExprs
         ((Analysis) sw).caseAListaExprs(this);
     }
 
-    public TVirgula getVirgula()
+    public TBarra getBarra()
     {
-        return this._virgula_;
+        return this._barra_;
     }
 
-    public void setVirgula(TVirgula node)
+    public void setBarra(TBarra node)
     {
-        if(this._virgula_ != null)
+        if(this._barra_ != null)
         {
-            this._virgula_.parent(null);
+            this._barra_.parent(null);
         }
 
         if(node != null)
@@ -62,7 +62,7 @@ public final class AListaExprs extends PExprs
             node.parent(this);
         }
 
-        this._virgula_ = node;
+        this._barra_ = node;
     }
 
     public PExpr getExpr()
@@ -94,7 +94,7 @@ public final class AListaExprs extends PExprs
     public String toString()
     {
         return ""
-            + toString(this._virgula_)
+            + toString(this._barra_)
             + toString(this._expr_);
     }
 
@@ -102,9 +102,9 @@ public final class AListaExprs extends PExprs
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._virgula_ == child)
+        if(this._barra_ == child)
         {
-            this._virgula_ = null;
+            this._barra_ = null;
             return;
         }
 
@@ -121,9 +121,9 @@ public final class AListaExprs extends PExprs
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._virgula_ == oldChild)
+        if(this._barra_ == oldChild)
         {
-            setVirgula((TVirgula) newChild);
+            setBarra((TBarra) newChild);
             return;
         }
 

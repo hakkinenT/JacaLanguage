@@ -9,12 +9,12 @@ public final class TMetodoLe extends Token
 {
     public TMetodoLe()
     {
-        super.setText(".lÃª");
+        super.setText(".lê");
     }
 
     public TMetodoLe(int line, int pos)
     {
-        super.setText(".lÃª");
+        super.setText(".lê");
         setLine(line);
         setPos(pos);
     }

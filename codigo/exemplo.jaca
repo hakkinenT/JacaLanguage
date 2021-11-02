@@ -1,1 +1,6 @@
-(5,0+9,0)
+classe _Animal
+início
+	var real altura;
+	
+	função real pesoEstimado() (2*5+3)
+fim

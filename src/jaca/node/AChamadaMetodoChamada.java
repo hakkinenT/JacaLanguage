@@ -2,6 +2,7 @@
 
 package jaca.node;
 
+import java.util.*;
 import jaca.analysis.*;
 
 @SuppressWarnings("nls")
@@ -9,7 +10,7 @@ public final class AChamadaMetodoChamada extends PChamada
 {
     private TId _id_;
     private TParEsq _parEsq_;
-    private PListaExpr _listaExpr_;
+    private final LinkedList<PListaExpr> _listaExpr_ = new LinkedList<PListaExpr>();
     private TParDir _parDir_;
 
     public AChamadaMetodoChamada()
@@ -20,7 +21,7 @@ public final class AChamadaMetodoChamada extends PChamada
     public AChamadaMetodoChamada(
         @SuppressWarnings("hiding") TId _id_,
         @SuppressWarnings("hiding") TParEsq _parEsq_,
-        @SuppressWarnings("hiding") PListaExpr _listaExpr_,
+        @SuppressWarnings("hiding") List<?> _listaExpr_,
         @SuppressWarnings("hiding") TParDir _parDir_)
     {
         // Constructor
@@ -40,7 +41,7 @@ public final class AChamadaMetodoChamada extends PChamada
         return new AChamadaMetodoChamada(
             cloneNode(this._id_),
             cloneNode(this._parEsq_),
-            cloneNode(this._listaExpr_),
+            cloneList(this._listaExpr_),
             cloneNode(this._parDir_));
     }
 
@@ -100,29 +101,30 @@ public final class AChamadaMetodoChamada extends PChamada
         this._parEsq_ = node;
     }
 
-    public PListaExpr getListaExpr()
+    public LinkedList<PListaExpr> getListaExpr()
     {
         return this._listaExpr_;
     }
 
-    public void setListaExpr(PListaExpr node)
+    public void setListaExpr(List<?> list)
     {
-        if(this._listaExpr_ != null)
+        for(PListaExpr e : this._listaExpr_)
         {
-            this._listaExpr_.parent(null);
+            e.parent(null);
         }
+        this._listaExpr_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PListaExpr e = (PListaExpr) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._listaExpr_.add(e);
         }
-
-        this._listaExpr_ = node;
     }
 
     public TParDir getParDir()
@@ -176,9 +178,8 @@ public final class AChamadaMetodoChamada extends PChamada
             return;
         }
 
-        if(this._listaExpr_ == child)
+        if(this._listaExpr_.remove(child))
         {
-            this._listaExpr_ = null;
             return;
         }
 
@@ -207,10 +208,22 @@ public final class AChamadaMetodoChamada extends PChamada
             return;
         }
 
-        if(this._listaExpr_ == oldChild)
+        for(ListIterator<PListaExpr> i = this._listaExpr_.listIterator(); i.hasNext();)
         {
-            setListaExpr((PListaExpr) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PListaExpr) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         if(this._parDir_ == oldChild)

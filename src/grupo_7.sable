@@ -8,7 +8,7 @@ Helpers
  nl = 10;
  tab = 09;
  underline = '_';
- letra_acent = 'ГЎ' | 'Г ' | 'Гў' | 'ГЈ' | 'Г©' | 'ГЁ' | 'ГЄ' | 'Г­' | 'Г¬' | 'Г®' | 'Гі' | 'ГІ' | 'Гґ' | 'Гµ' | 'Гє' | 'Г№' | 'Г»' | 'ГЃ' | 'ГЂ' | 'Г‚' | 'Гѓ' | 'Г‰' | 'Г€' | 'ГЉ' | 'ГЌ' | 'ГЊ' | 'ГЋ' | 'Г“' | 'Г’' | 'Г”' | 'Г•' | 'Гљ' | 'Г™' | 'Г›' | 'Г§' | 'Г‡';
+ letra_acent = 'б' | 'а' | 'в' | 'г' | 'й' | 'к' | 'и' | 'н' | 'м' | 'о' | 'у' | 'т' | 'ф' | 'х' | 'ъ' | 'щ' | 'ы' | 'Б' |'А' | 'Г' | 'В' |'Й' | 'И' | 'К' | 'Н' | 'М' | 'О' | 'Ф' | 'Т' | 'У' | 'Х' | 'Ъ' | 'Щ' | 'Ы' | 'З' | 'з';
  caractere = letra  | letra_acent;
  tudo = [0x0 .. 0xfffff];
  quase_tudo_bloco = [ tudo - '}' ];
@@ -17,16 +17,16 @@ Helpers
 Tokens
  /* reservadas */
  
- inicio = 'inicio';
+ inicio = 'inнcio';
  fim = 'fim';
  classe = 'classe';
  verdade = 'verdade';
  falso = 'falso';
  se = 'se';
- senao = 'senГЈo';
+ senao = 'senгo';
  enquanto = 'enquanto';
  procedimento = 'procedimento';
- funcao = 'funcao';
+ funcao = 'funзгo';
  tipo_bool = 'bool';
  tipo_real = 'real';
  heranca = 'filha da classe';
@@ -36,7 +36,7 @@ Tokens
  e_logico = 'e';
  ou_logico = 'ou';
  metodo_imprime = '.imprime';
- metodo_le = '.lГЄ';
+ metodo_le = '.lк';
  comentario = '#'(quase_tudo_linha)*;
  comentario_bloco = '{'(quase_tudo_bloco)*'}';
  
@@ -59,6 +59,7 @@ Tokens
  menor = '<';
  menor_igual = '<=';
  negacao = '!';
+ barra = '|';
  
  vazio = (espaco | rc | nl | tab)+;
  id = caractere(caractere | underline)*;
@@ -72,10 +73,11 @@ Tokens
   vazio;
   
  Productions
- /*
- programa = familia def_classe*;
  
- familia = relacao lista_relacoes* ponto_virgula;
+ programa = familia* def_classe*;
+ 
+ familia = 
+ 	{not_empty} relacao lista_relacoes* ponto_virgula;
  
  lista_relacoes =
  	{relacoes} relacao_symbol relacao; 
@@ -118,6 +120,7 @@ Tokens
    
  dec_procedimento =
  	{principal} inicio_proced procedimento id par_esq parametros par_dir comando
+   |{proced_completo} procedimento id par_esq parametros par_dir comando
    |{procedimento} procedimento id par_esq parametros par_dir ponto_virgula;
  
  dec_funcao =
@@ -125,21 +128,24 @@ Tokens
    |{funcao} funcao tipo id par_esq parametros par_dir ponto_virgula;
  
  parametros =
- 	{params} parametro*;
+   {params} parametro*;
  	
  list_param =
- 	{lista} virgula parametro;
+ 	{lista} barra parametro;
  	
  parametro = 
  	{param} tipo id;
  
  comando =
- 	{se} se par_esq expr par_dir comando
-   |{equanto} par_esq expr par_dir comando
-   |{atbr} id atribuicao expr
-   |{chamada_metd} id ponto chamada
+   |{se} se par_esq expr par_dir comando_dois
+   |{enquanto} enquanto par_esq expr par_dir comando
+   |{atbr} id atribuicao expr ponto_virgula
+   |{chamada_metd} id ponto chamada ponto_virgula
    |{bloco} bloco;
- 
+   
+ comando_dois =
+   |{se_senao} [a]:comando senao [b]:comando;
+ 	
  bloco = 
  	{iniciar_bloco}inicio tipo_decl* comando* fim;
  
@@ -147,56 +153,65 @@ Tokens
  	{dec_obj} dec_obj
    |{dec_var} dec_var
    |{dec_const} dec_const;
- */
+   
  expr =
- 	{expr_relacional} expr_relacional
-   |{menos} menos expr
-   |{chamada_atrb} id ponto atributo ponto_virgula
-   |{chamada_metd} id ponto chamada ponto_virgula
-   |{e_logico} expr e_logico expr_relacional
-   |{ou_logico} expr ou_logico expr_relacional;
-  
+ 	{expr_nivel_um} expr_nivel_um
+   |{bloco_expr} bloco_exp;
+
+ expr_nivel_um =
+ 	{expr_nivel_dois} expr_nivel_dois
+ 	|{e_logico} [a]:expr_nivel_dois e_logico [b]:expr_nivel_dois
+ 	|{ou_logico} [a]:expr_nivel_dois ou_logico [b]:expr_nivel_dois;
  	
- expr_relacional =
- 	{expr_aritm} expr_aritm
-   |{menor_que} expr_relacional menor expr_aritm
-   |{menor_igual} expr_relacional menor_igual expr_aritm
-   |{igual} expr_relacional igual expr_aritm;
+  expr_nivel_dois =
+ 	{expr_nivel_tres} expr_nivel_tres
+   |{igual} [a]:expr_nivel_tres igual [b]:expr_nivel_tres;
+ 	
+ expr_nivel_tres =
+ 	{expr_nivel_quatro} expr_nivel_quatro
+   |{menor} [a]:expr_nivel_quatro menor [b]:expr_nivel_quatro
+   |{menor_igual} [a]:expr_nivel_quatro menor_igual [b]:expr_nivel_quatro;
+    	
+ expr_nivel_quatro =
+ 	{expr_nivel_cinco} expr_nivel_cinco
+   |{soma} [a]:expr_nivel_cinco soma [b]:expr_nivel_cinco
+   |{menos} [a]:expr_nivel_cinco menos [b]:expr_nivel_cinco;
    
- 
- expr_aritm = 
- 	{fator} fator
-   |{soma} expr_aritm soma fator
-   |{subt} expr_aritm menos fator;
+  expr_nivel_cinco =
+ 	{expr_nivel_seis} expr_nivel_seis
+   |{negacao} negacao expr_nivel_seis;
+   
+ expr_nivel_seis =
+ 	{expr_nivel_sete} expr_nivel_sete
+   |{mod} expr_nivel_seis mod expr_nivel_sete; 
+ 	
+ expr_nivel_sete =
+ 	{expr_nivel_oito} expr_nivel_oito
+   |{mult} expr_nivel_sete mult expr_nivel_oito
+   |{div} expr_nivel_sete div expr_nivel_oito;
    
    
- fator =
- 	{termo} termo
-   |{mult} fator mult termo
-   |{div} fator div termo
-   |{mod} fator mod termo;
-   	
- termo =
- 	{valor_real} numero_real
-   |{par} par_esq expr par_dir
-   |{negacao} negacao expr;
-   
- valor_bool =
-    {verdade} verdade
-   |{falso} falso;
- /*  
+ expr_nivel_oito =
+ 	{identifier} id
+   |{n_real} numero_real
+   |{chamada_metd} id ponto chamada ponto_virgula
+   |{chamada_atributo} id ponto atributo ponto_virgula
+   |{verdade} verdade
+   |{falso} falso
+   |{par} par_esq expr par_dir;
+    
  bloco_exp =
  	{bloco} inicio dec_const* expr fim;
- */	
+	
  chamada = 
- 	{chamada_metodo} id par_esq lista_expr par_dir;
+ 	{chamada_metodo} id par_esq lista_expr* par_dir;
  
  atributo =
  	{id} id;
  	
  lista_expr =
- 	{expressoes} expr exprs*;
+   {expressoes} expr exprs*;
  	
  exprs = 
- 	{lista} virgula expr;
+ 	{lista} barra expr;
  
