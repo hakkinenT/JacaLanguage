@@ -119,8 +119,7 @@ Tokens
    |{bool} tipo_bool;
    
  dec_procedimento =
- 	{principal} inicio_proced procedimento id par_esq parametros par_dir comando
-   |{proced_completo} procedimento id par_esq parametros par_dir comando
+ 	{proced_completo} inicio_proced* procedimento id par_esq parametros par_dir comando
    |{procedimento} procedimento id par_esq parametros par_dir ponto_virgula;
  
  dec_funcao =
@@ -137,14 +136,18 @@ Tokens
  	{param} tipo id;
  
  comando =
-   |{se} se par_esq expr par_dir comando_dois
+    {se} se par_esq expr par_dir comando
+   |{se_senao} se par_esq expr par_dir comando_dois senao comando
    |{enquanto} enquanto par_esq expr par_dir comando
    |{atbr} id atribuicao expr ponto_virgula
    |{chamada_metd} id ponto chamada ponto_virgula
    |{bloco} bloco;
    
  comando_dois =
-   |{se_senao} [a]:comando senao [b]:comando;
+ 	{se_senao} se par_esq expr par_dir [a]:comando_dois senao [b]:comando_dois
+   |{bloco} bloco;
+   
+ 
  	
  bloco = 
  	{iniciar_bloco}inicio tipo_decl* comando* fim;

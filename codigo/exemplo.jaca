@@ -1,6 +1,19 @@
-classe _Animal
+classe _Principal
 início
-	var real altura;
-	
-	função real pesoEstimado() (2*5+3)
+	objeto _ES interface;
+	>>> procedimento principal ()
+	início
+		var real true;
+		
+		se (true == verdadeiro)
+		início
+			objeto _Humano h;
+			animal := h;
+		fim
+		senão
+		início
+			objeto _Cachorro c;
+			animal := c;
+		fim
+	fim
 fim

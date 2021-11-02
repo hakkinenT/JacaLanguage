@@ -5,42 +5,42 @@ package jaca.node;
 import jaca.analysis.*;
 
 @SuppressWarnings("nls")
-public final class APrincipalDecProcedimento extends PDecProcedimento
+public final class ASeSenaoComando extends PComando
 {
-    private TInicioProced _inicioProced_;
-    private TProcedimento _procedimento_;
-    private TId _id_;
+    private TSe _se_;
     private TParEsq _parEsq_;
-    private PParametros _parametros_;
+    private PExpr _expr_;
     private TParDir _parDir_;
+    private PComandoDois _comandoDois_;
+    private TSenao _senao_;
     private PComando _comando_;
 
-    public APrincipalDecProcedimento()
+    public ASeSenaoComando()
     {
         // Constructor
     }
 
-    public APrincipalDecProcedimento(
-        @SuppressWarnings("hiding") TInicioProced _inicioProced_,
-        @SuppressWarnings("hiding") TProcedimento _procedimento_,
-        @SuppressWarnings("hiding") TId _id_,
+    public ASeSenaoComando(
+        @SuppressWarnings("hiding") TSe _se_,
         @SuppressWarnings("hiding") TParEsq _parEsq_,
-        @SuppressWarnings("hiding") PParametros _parametros_,
+        @SuppressWarnings("hiding") PExpr _expr_,
         @SuppressWarnings("hiding") TParDir _parDir_,
+        @SuppressWarnings("hiding") PComandoDois _comandoDois_,
+        @SuppressWarnings("hiding") TSenao _senao_,
         @SuppressWarnings("hiding") PComando _comando_)
     {
         // Constructor
-        setInicioProced(_inicioProced_);
-
-        setProcedimento(_procedimento_);
-
-        setId(_id_);
+        setSe(_se_);
 
         setParEsq(_parEsq_);
 
-        setParametros(_parametros_);
+        setExpr(_expr_);
 
         setParDir(_parDir_);
+
+        setComandoDois(_comandoDois_);
+
+        setSenao(_senao_);
 
         setComando(_comando_);
 
@@ -49,32 +49,32 @@ public final class APrincipalDecProcedimento extends PDecProcedimento
     @Override
     public Object clone()
     {
-        return new APrincipalDecProcedimento(
-            cloneNode(this._inicioProced_),
-            cloneNode(this._procedimento_),
-            cloneNode(this._id_),
+        return new ASeSenaoComando(
+            cloneNode(this._se_),
             cloneNode(this._parEsq_),
-            cloneNode(this._parametros_),
+            cloneNode(this._expr_),
             cloneNode(this._parDir_),
+            cloneNode(this._comandoDois_),
+            cloneNode(this._senao_),
             cloneNode(this._comando_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAPrincipalDecProcedimento(this);
+        ((Analysis) sw).caseASeSenaoComando(this);
     }
 
-    public TInicioProced getInicioProced()
+    public TSe getSe()
     {
-        return this._inicioProced_;
+        return this._se_;
     }
 
-    public void setInicioProced(TInicioProced node)
+    public void setSe(TSe node)
     {
-        if(this._inicioProced_ != null)
+        if(this._se_ != null)
         {
-            this._inicioProced_.parent(null);
+            this._se_.parent(null);
         }
 
         if(node != null)
@@ -87,57 +87,7 @@ public final class APrincipalDecProcedimento extends PDecProcedimento
             node.parent(this);
         }
 
-        this._inicioProced_ = node;
-    }
-
-    public TProcedimento getProcedimento()
-    {
-        return this._procedimento_;
-    }
-
-    public void setProcedimento(TProcedimento node)
-    {
-        if(this._procedimento_ != null)
-        {
-            this._procedimento_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._procedimento_ = node;
-    }
-
-    public TId getId()
-    {
-        return this._id_;
-    }
-
-    public void setId(TId node)
-    {
-        if(this._id_ != null)
-        {
-            this._id_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._id_ = node;
+        this._se_ = node;
     }
 
     public TParEsq getParEsq()
@@ -165,16 +115,16 @@ public final class APrincipalDecProcedimento extends PDecProcedimento
         this._parEsq_ = node;
     }
 
-    public PParametros getParametros()
+    public PExpr getExpr()
     {
-        return this._parametros_;
+        return this._expr_;
     }
 
-    public void setParametros(PParametros node)
+    public void setExpr(PExpr node)
     {
-        if(this._parametros_ != null)
+        if(this._expr_ != null)
         {
-            this._parametros_.parent(null);
+            this._expr_.parent(null);
         }
 
         if(node != null)
@@ -187,7 +137,7 @@ public final class APrincipalDecProcedimento extends PDecProcedimento
             node.parent(this);
         }
 
-        this._parametros_ = node;
+        this._expr_ = node;
     }
 
     public TParDir getParDir()
@@ -213,6 +163,56 @@ public final class APrincipalDecProcedimento extends PDecProcedimento
         }
 
         this._parDir_ = node;
+    }
+
+    public PComandoDois getComandoDois()
+    {
+        return this._comandoDois_;
+    }
+
+    public void setComandoDois(PComandoDois node)
+    {
+        if(this._comandoDois_ != null)
+        {
+            this._comandoDois_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._comandoDois_ = node;
+    }
+
+    public TSenao getSenao()
+    {
+        return this._senao_;
+    }
+
+    public void setSenao(TSenao node)
+    {
+        if(this._senao_ != null)
+        {
+            this._senao_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._senao_ = node;
     }
 
     public PComando getComando()
@@ -244,12 +244,12 @@ public final class APrincipalDecProcedimento extends PDecProcedimento
     public String toString()
     {
         return ""
-            + toString(this._inicioProced_)
-            + toString(this._procedimento_)
-            + toString(this._id_)
+            + toString(this._se_)
             + toString(this._parEsq_)
-            + toString(this._parametros_)
+            + toString(this._expr_)
             + toString(this._parDir_)
+            + toString(this._comandoDois_)
+            + toString(this._senao_)
             + toString(this._comando_);
     }
 
@@ -257,21 +257,9 @@ public final class APrincipalDecProcedimento extends PDecProcedimento
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._inicioProced_ == child)
+        if(this._se_ == child)
         {
-            this._inicioProced_ = null;
-            return;
-        }
-
-        if(this._procedimento_ == child)
-        {
-            this._procedimento_ = null;
-            return;
-        }
-
-        if(this._id_ == child)
-        {
-            this._id_ = null;
+            this._se_ = null;
             return;
         }
 
@@ -281,15 +269,27 @@ public final class APrincipalDecProcedimento extends PDecProcedimento
             return;
         }
 
-        if(this._parametros_ == child)
+        if(this._expr_ == child)
         {
-            this._parametros_ = null;
+            this._expr_ = null;
             return;
         }
 
         if(this._parDir_ == child)
         {
             this._parDir_ = null;
+            return;
+        }
+
+        if(this._comandoDois_ == child)
+        {
+            this._comandoDois_ = null;
+            return;
+        }
+
+        if(this._senao_ == child)
+        {
+            this._senao_ = null;
             return;
         }
 
@@ -306,21 +306,9 @@ public final class APrincipalDecProcedimento extends PDecProcedimento
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._inicioProced_ == oldChild)
+        if(this._se_ == oldChild)
         {
-            setInicioProced((TInicioProced) newChild);
-            return;
-        }
-
-        if(this._procedimento_ == oldChild)
-        {
-            setProcedimento((TProcedimento) newChild);
-            return;
-        }
-
-        if(this._id_ == oldChild)
-        {
-            setId((TId) newChild);
+            setSe((TSe) newChild);
             return;
         }
 
@@ -330,15 +318,27 @@ public final class APrincipalDecProcedimento extends PDecProcedimento
             return;
         }
 
-        if(this._parametros_ == oldChild)
+        if(this._expr_ == oldChild)
         {
-            setParametros((PParametros) newChild);
+            setExpr((PExpr) newChild);
             return;
         }
 
         if(this._parDir_ == oldChild)
         {
             setParDir((TParDir) newChild);
+            return;
+        }
+
+        if(this._comandoDois_ == oldChild)
+        {
+            setComandoDois((PComandoDois) newChild);
+            return;
+        }
+
+        if(this._senao_ == oldChild)
+        {
+            setSenao((TSenao) newChild);
             return;
         }
 

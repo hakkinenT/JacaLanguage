@@ -11,7 +11,7 @@ public final class ASeComando extends PComando
     private TParEsq _parEsq_;
     private PExpr _expr_;
     private TParDir _parDir_;
-    private PComandoDois _comandoDois_;
+    private PComando _comando_;
 
     public ASeComando()
     {
@@ -23,7 +23,7 @@ public final class ASeComando extends PComando
         @SuppressWarnings("hiding") TParEsq _parEsq_,
         @SuppressWarnings("hiding") PExpr _expr_,
         @SuppressWarnings("hiding") TParDir _parDir_,
-        @SuppressWarnings("hiding") PComandoDois _comandoDois_)
+        @SuppressWarnings("hiding") PComando _comando_)
     {
         // Constructor
         setSe(_se_);
@@ -34,7 +34,7 @@ public final class ASeComando extends PComando
 
         setParDir(_parDir_);
 
-        setComandoDois(_comandoDois_);
+        setComando(_comando_);
 
     }
 
@@ -46,7 +46,7 @@ public final class ASeComando extends PComando
             cloneNode(this._parEsq_),
             cloneNode(this._expr_),
             cloneNode(this._parDir_),
-            cloneNode(this._comandoDois_));
+            cloneNode(this._comando_));
     }
 
     @Override
@@ -155,16 +155,16 @@ public final class ASeComando extends PComando
         this._parDir_ = node;
     }
 
-    public PComandoDois getComandoDois()
+    public PComando getComando()
     {
-        return this._comandoDois_;
+        return this._comando_;
     }
 
-    public void setComandoDois(PComandoDois node)
+    public void setComando(PComando node)
     {
-        if(this._comandoDois_ != null)
+        if(this._comando_ != null)
         {
-            this._comandoDois_.parent(null);
+            this._comando_.parent(null);
         }
 
         if(node != null)
@@ -177,7 +177,7 @@ public final class ASeComando extends PComando
             node.parent(this);
         }
 
-        this._comandoDois_ = node;
+        this._comando_ = node;
     }
 
     @Override
@@ -188,7 +188,7 @@ public final class ASeComando extends PComando
             + toString(this._parEsq_)
             + toString(this._expr_)
             + toString(this._parDir_)
-            + toString(this._comandoDois_);
+            + toString(this._comando_);
     }
 
     @Override
@@ -219,9 +219,9 @@ public final class ASeComando extends PComando
             return;
         }
 
-        if(this._comandoDois_ == child)
+        if(this._comando_ == child)
         {
-            this._comandoDois_ = null;
+            this._comando_ = null;
             return;
         }
 
@@ -256,9 +256,9 @@ public final class ASeComando extends PComando
             return;
         }
 
-        if(this._comandoDois_ == oldChild)
+        if(this._comando_ == oldChild)
         {
-            setComandoDois((PComandoDois) newChild);
+            setComando((PComando) newChild);
             return;
         }
 

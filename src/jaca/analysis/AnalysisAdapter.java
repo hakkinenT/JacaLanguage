@@ -189,12 +189,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAPrincipalDecProcedimento(APrincipalDecProcedimento node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
     public void caseAProcedCompletoDecProcedimento(AProcedCompletoDecProcedimento node)
     {
         defaultCase(node);
@@ -237,13 +231,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAComando(AComando node)
+    public void caseASeComando(ASeComando node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseASeComando(ASeComando node)
+    public void caseASeSenaoComando(ASeSenaoComando node)
     {
         defaultCase(node);
     }
@@ -273,13 +267,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAComandoDois(AComandoDois node)
+    public void caseASeSenaoComandoDois(ASeSenaoComandoDois node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseASeSenaoComandoDois(ASeSenaoComandoDois node)
+    public void caseABlocoComandoDois(ABlocoComandoDois node)
     {
         defaultCase(node);
     }

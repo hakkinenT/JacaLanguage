@@ -539,51 +539,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outABoolTipoPrimitivo(node);
     }
 
-    public void inAPrincipalDecProcedimento(APrincipalDecProcedimento node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAPrincipalDecProcedimento(APrincipalDecProcedimento node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAPrincipalDecProcedimento(APrincipalDecProcedimento node)
-    {
-        inAPrincipalDecProcedimento(node);
-        if(node.getComando() != null)
-        {
-            node.getComando().apply(this);
-        }
-        if(node.getParDir() != null)
-        {
-            node.getParDir().apply(this);
-        }
-        if(node.getParametros() != null)
-        {
-            node.getParametros().apply(this);
-        }
-        if(node.getParEsq() != null)
-        {
-            node.getParEsq().apply(this);
-        }
-        if(node.getId() != null)
-        {
-            node.getId().apply(this);
-        }
-        if(node.getProcedimento() != null)
-        {
-            node.getProcedimento().apply(this);
-        }
-        if(node.getInicioProced() != null)
-        {
-            node.getInicioProced().apply(this);
-        }
-        outAPrincipalDecProcedimento(node);
-    }
-
     public void inAProcedCompletoDecProcedimento(AProcedCompletoDecProcedimento node)
     {
         defaultIn(node);
@@ -621,6 +576,14 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         if(node.getProcedimento() != null)
         {
             node.getProcedimento().apply(this);
+        }
+        {
+            List<TInicioProced> copy = new ArrayList<TInicioProced>(node.getInicioProced());
+            Collections.reverse(copy);
+            for(TInicioProced e : copy)
+            {
+                e.apply(this);
+            }
         }
         outAProcedCompletoDecProcedimento(node);
     }
@@ -831,23 +794,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAParamParametro(node);
     }
 
-    public void inAComando(AComando node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAComando(AComando node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAComando(AComando node)
-    {
-        inAComando(node);
-        outAComando(node);
-    }
-
     public void inASeComando(ASeComando node)
     {
         defaultIn(node);
@@ -862,6 +808,51 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseASeComando(ASeComando node)
     {
         inASeComando(node);
+        if(node.getComando() != null)
+        {
+            node.getComando().apply(this);
+        }
+        if(node.getParDir() != null)
+        {
+            node.getParDir().apply(this);
+        }
+        if(node.getExpr() != null)
+        {
+            node.getExpr().apply(this);
+        }
+        if(node.getParEsq() != null)
+        {
+            node.getParEsq().apply(this);
+        }
+        if(node.getSe() != null)
+        {
+            node.getSe().apply(this);
+        }
+        outASeComando(node);
+    }
+
+    public void inASeSenaoComando(ASeSenaoComando node)
+    {
+        defaultIn(node);
+    }
+
+    public void outASeSenaoComando(ASeSenaoComando node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseASeSenaoComando(ASeSenaoComando node)
+    {
+        inASeSenaoComando(node);
+        if(node.getComando() != null)
+        {
+            node.getComando().apply(this);
+        }
+        if(node.getSenao() != null)
+        {
+            node.getSenao().apply(this);
+        }
         if(node.getComandoDois() != null)
         {
             node.getComandoDois().apply(this);
@@ -882,7 +873,7 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         {
             node.getSe().apply(this);
         }
-        outASeComando(node);
+        outASeSenaoComando(node);
     }
 
     public void inAEnquantoComando(AEnquantoComando node)
@@ -1009,23 +1000,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outABlocoComando(node);
     }
 
-    public void inAComandoDois(AComandoDois node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAComandoDois(AComandoDois node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAComandoDois(AComandoDois node)
-    {
-        inAComandoDois(node);
-        outAComandoDois(node);
-    }
-
     public void inASeSenaoComandoDois(ASeSenaoComandoDois node)
     {
         defaultIn(node);
@@ -1052,7 +1026,44 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         {
             node.getA().apply(this);
         }
+        if(node.getParDir() != null)
+        {
+            node.getParDir().apply(this);
+        }
+        if(node.getExpr() != null)
+        {
+            node.getExpr().apply(this);
+        }
+        if(node.getParEsq() != null)
+        {
+            node.getParEsq().apply(this);
+        }
+        if(node.getSe() != null)
+        {
+            node.getSe().apply(this);
+        }
         outASeSenaoComandoDois(node);
+    }
+
+    public void inABlocoComandoDois(ABlocoComandoDois node)
+    {
+        defaultIn(node);
+    }
+
+    public void outABlocoComandoDois(ABlocoComandoDois node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseABlocoComandoDois(ABlocoComandoDois node)
+    {
+        inABlocoComandoDois(node);
+        if(node.getBloco() != null)
+        {
+            node.getBloco().apply(this);
+        }
+        outABlocoComandoDois(node);
     }
 
     public void inAIniciarBlocoBloco(AIniciarBlocoBloco node)

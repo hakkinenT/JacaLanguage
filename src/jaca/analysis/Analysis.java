@@ -31,7 +31,6 @@ public interface Analysis extends Switch
     void caseAClasseTipoClasse(AClasseTipoClasse node);
     void caseARealTipoPrimitivo(ARealTipoPrimitivo node);
     void caseABoolTipoPrimitivo(ABoolTipoPrimitivo node);
-    void caseAPrincipalDecProcedimento(APrincipalDecProcedimento node);
     void caseAProcedCompletoDecProcedimento(AProcedCompletoDecProcedimento node);
     void caseAProcedimentoDecProcedimento(AProcedimentoDecProcedimento node);
     void caseAFuncaoCompletaDecFuncao(AFuncaoCompletaDecFuncao node);
@@ -39,14 +38,14 @@ public interface Analysis extends Switch
     void caseAParamsParametros(AParamsParametros node);
     void caseAListaListParam(AListaListParam node);
     void caseAParamParametro(AParamParametro node);
-    void caseAComando(AComando node);
     void caseASeComando(ASeComando node);
+    void caseASeSenaoComando(ASeSenaoComando node);
     void caseAEnquantoComando(AEnquantoComando node);
     void caseAAtbrComando(AAtbrComando node);
     void caseAChamadaMetdComando(AChamadaMetdComando node);
     void caseABlocoComando(ABlocoComando node);
-    void caseAComandoDois(AComandoDois node);
     void caseASeSenaoComandoDois(ASeSenaoComandoDois node);
+    void caseABlocoComandoDois(ABlocoComandoDois node);
     void caseAIniciarBlocoBloco(AIniciarBlocoBloco node);
     void caseADecObjTipoDecl(ADecObjTipoDecl node);
     void caseADecVarTipoDecl(ADecVarTipoDecl node);
