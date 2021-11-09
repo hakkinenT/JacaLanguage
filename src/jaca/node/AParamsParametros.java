@@ -8,7 +8,8 @@ import jaca.analysis.*;
 @SuppressWarnings("nls")
 public final class AParamsParametros extends PParametros
 {
-    private final LinkedList<PParametro> _parametro_ = new LinkedList<PParametro>();
+    private PParametro _parametro_;
+    private final LinkedList<PParams> _params_ = new LinkedList<PParams>();
 
     public AParamsParametros()
     {
@@ -16,10 +17,13 @@ public final class AParamsParametros extends PParametros
     }
 
     public AParamsParametros(
-        @SuppressWarnings("hiding") List<?> _parametro_)
+        @SuppressWarnings("hiding") PParametro _parametro_,
+        @SuppressWarnings("hiding") List<?> _params_)
     {
         // Constructor
         setParametro(_parametro_);
+
+        setParams(_params_);
 
     }
 
@@ -27,7 +31,8 @@ public final class AParamsParametros extends PParametros
     public Object clone()
     {
         return new AParamsParametros(
-            cloneList(this._parametro_));
+            cloneNode(this._parametro_),
+            cloneList(this._params_));
     }
 
     @Override
@@ -36,29 +41,54 @@ public final class AParamsParametros extends PParametros
         ((Analysis) sw).caseAParamsParametros(this);
     }
 
-    public LinkedList<PParametro> getParametro()
+    public PParametro getParametro()
     {
         return this._parametro_;
     }
 
-    public void setParametro(List<?> list)
+    public void setParametro(PParametro node)
     {
-        for(PParametro e : this._parametro_)
+        if(this._parametro_ != null)
+        {
+            this._parametro_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._parametro_ = node;
+    }
+
+    public LinkedList<PParams> getParams()
+    {
+        return this._params_;
+    }
+
+    public void setParams(List<?> list)
+    {
+        for(PParams e : this._params_)
         {
             e.parent(null);
         }
-        this._parametro_.clear();
+        this._params_.clear();
 
         for(Object obj_e : list)
         {
-            PParametro e = (PParametro) obj_e;
+            PParams e = (PParams) obj_e;
             if(e.parent() != null)
             {
                 e.parent().removeChild(e);
             }
 
             e.parent(this);
-            this._parametro_.add(e);
+            this._params_.add(e);
         }
     }
 
@@ -66,14 +96,21 @@ public final class AParamsParametros extends PParametros
     public String toString()
     {
         return ""
-            + toString(this._parametro_);
+            + toString(this._parametro_)
+            + toString(this._params_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._parametro_.remove(child))
+        if(this._parametro_ == child)
+        {
+            this._parametro_ = null;
+            return;
+        }
+
+        if(this._params_.remove(child))
         {
             return;
         }
@@ -85,13 +122,19 @@ public final class AParamsParametros extends PParametros
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        for(ListIterator<PParametro> i = this._parametro_.listIterator(); i.hasNext();)
+        if(this._parametro_ == oldChild)
+        {
+            setParametro((PParametro) newChild);
+            return;
+        }
+
+        for(ListIterator<PParams> i = this._params_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((PParametro) newChild);
+                    i.set((PParams) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
                     return;

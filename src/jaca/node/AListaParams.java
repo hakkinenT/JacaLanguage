@@ -5,17 +5,17 @@ package jaca.node;
 import jaca.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AListaListParam extends PListParam
+public final class AListaParams extends PParams
 {
     private TBarra _barra_;
     private PParametro _parametro_;
 
-    public AListaListParam()
+    public AListaParams()
     {
         // Constructor
     }
 
-    public AListaListParam(
+    public AListaParams(
         @SuppressWarnings("hiding") TBarra _barra_,
         @SuppressWarnings("hiding") PParametro _parametro_)
     {
@@ -29,7 +29,7 @@ public final class AListaListParam extends PListParam
     @Override
     public Object clone()
     {
-        return new AListaListParam(
+        return new AListaParams(
             cloneNode(this._barra_),
             cloneNode(this._parametro_));
     }
@@ -37,7 +37,7 @@ public final class AListaListParam extends PListParam
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAListaListParam(this);
+        ((Analysis) sw).caseAListaParams(this);
     }
 
     public TBarra getBarra()

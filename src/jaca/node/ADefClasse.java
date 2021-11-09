@@ -2,6 +2,7 @@
 
 package jaca.node;
 
+import java.util.*;
 import jaca.analysis.*;
 
 @SuppressWarnings("nls")
@@ -10,7 +11,7 @@ public final class ADefClasse extends PDefClasse
     private TClasse _classe_;
     private TIdClass _idClass_;
     private TInicio _inicio_;
-    private PAtributos _atributos_;
+    private final LinkedList<PAtributos> _atributos_ = new LinkedList<PAtributos>();
     private PMetodos _metodos_;
     private TFim _fim_;
 
@@ -23,7 +24,7 @@ public final class ADefClasse extends PDefClasse
         @SuppressWarnings("hiding") TClasse _classe_,
         @SuppressWarnings("hiding") TIdClass _idClass_,
         @SuppressWarnings("hiding") TInicio _inicio_,
-        @SuppressWarnings("hiding") PAtributos _atributos_,
+        @SuppressWarnings("hiding") List<?> _atributos_,
         @SuppressWarnings("hiding") PMetodos _metodos_,
         @SuppressWarnings("hiding") TFim _fim_)
     {
@@ -49,7 +50,7 @@ public final class ADefClasse extends PDefClasse
             cloneNode(this._classe_),
             cloneNode(this._idClass_),
             cloneNode(this._inicio_),
-            cloneNode(this._atributos_),
+            cloneList(this._atributos_),
             cloneNode(this._metodos_),
             cloneNode(this._fim_));
     }
@@ -135,29 +136,30 @@ public final class ADefClasse extends PDefClasse
         this._inicio_ = node;
     }
 
-    public PAtributos getAtributos()
+    public LinkedList<PAtributos> getAtributos()
     {
         return this._atributos_;
     }
 
-    public void setAtributos(PAtributos node)
+    public void setAtributos(List<?> list)
     {
-        if(this._atributos_ != null)
+        for(PAtributos e : this._atributos_)
         {
-            this._atributos_.parent(null);
+            e.parent(null);
         }
+        this._atributos_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PAtributos e = (PAtributos) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._atributos_.add(e);
         }
-
-        this._atributos_ = node;
     }
 
     public PMetodos getMetodos()
@@ -244,9 +246,8 @@ public final class ADefClasse extends PDefClasse
             return;
         }
 
-        if(this._atributos_ == child)
+        if(this._atributos_.remove(child))
         {
-            this._atributos_ = null;
             return;
         }
 
@@ -287,10 +288,22 @@ public final class ADefClasse extends PDefClasse
             return;
         }
 
-        if(this._atributos_ == oldChild)
+        for(ListIterator<PAtributos> i = this._atributos_.listIterator(); i.hasNext();)
         {
-            setAtributos((PAtributos) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PAtributos) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         if(this._metodos_ == oldChild)

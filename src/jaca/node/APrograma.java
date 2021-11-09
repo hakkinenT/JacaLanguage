@@ -8,7 +8,7 @@ import jaca.analysis.*;
 @SuppressWarnings("nls")
 public final class APrograma extends PPrograma
 {
-    private final LinkedList<PFamilia> _familia_ = new LinkedList<PFamilia>();
+    private PFamilia _familia_;
     private final LinkedList<PDefClasse> _defClasse_ = new LinkedList<PDefClasse>();
 
     public APrograma()
@@ -17,7 +17,7 @@ public final class APrograma extends PPrograma
     }
 
     public APrograma(
-        @SuppressWarnings("hiding") List<?> _familia_,
+        @SuppressWarnings("hiding") PFamilia _familia_,
         @SuppressWarnings("hiding") List<?> _defClasse_)
     {
         // Constructor
@@ -31,7 +31,7 @@ public final class APrograma extends PPrograma
     public Object clone()
     {
         return new APrograma(
-            cloneList(this._familia_),
+            cloneNode(this._familia_),
             cloneList(this._defClasse_));
     }
 
@@ -41,30 +41,29 @@ public final class APrograma extends PPrograma
         ((Analysis) sw).caseAPrograma(this);
     }
 
-    public LinkedList<PFamilia> getFamilia()
+    public PFamilia getFamilia()
     {
         return this._familia_;
     }
 
-    public void setFamilia(List<?> list)
+    public void setFamilia(PFamilia node)
     {
-        for(PFamilia e : this._familia_)
+        if(this._familia_ != null)
         {
-            e.parent(null);
+            this._familia_.parent(null);
         }
-        this._familia_.clear();
 
-        for(Object obj_e : list)
+        if(node != null)
         {
-            PFamilia e = (PFamilia) obj_e;
-            if(e.parent() != null)
+            if(node.parent() != null)
             {
-                e.parent().removeChild(e);
+                node.parent().removeChild(node);
             }
 
-            e.parent(this);
-            this._familia_.add(e);
+            node.parent(this);
         }
+
+        this._familia_ = node;
     }
 
     public LinkedList<PDefClasse> getDefClasse()
@@ -105,8 +104,9 @@ public final class APrograma extends PPrograma
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._familia_.remove(child))
+        if(this._familia_ == child)
         {
+            this._familia_ = null;
             return;
         }
 
@@ -122,22 +122,10 @@ public final class APrograma extends PPrograma
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        for(ListIterator<PFamilia> i = this._familia_.listIterator(); i.hasNext();)
+        if(this._familia_ == oldChild)
         {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
-                    i.set((PFamilia) newChild);
-                    newChild.parent(this);
-                    oldChild.parent(null);
-                    return;
-                }
-
-                i.remove();
-                oldChild.parent(null);
-                return;
-            }
+            setFamilia((PFamilia) newChild);
+            return;
         }
 
         for(ListIterator<PDefClasse> i = this._defClasse_.listIterator(); i.hasNext();)

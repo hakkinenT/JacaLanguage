@@ -2,7 +2,7 @@
 
 package jaca.node;
 
-public abstract class PListParam extends Node
+public abstract class PParams extends Node
 {
     // Empty body
 }

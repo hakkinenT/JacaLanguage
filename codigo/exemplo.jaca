@@ -4,6 +4,9 @@ início
 	>>> procedimento principal ()
 	início
 		var real true;
+		objeto _Carro carro;
+		
+		interface.imprime(carro.cor;);
 		
 		se (true == verdadeiro)
 		início

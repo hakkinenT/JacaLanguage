@@ -2,13 +2,12 @@
 
 package jaca.node;
 
-import java.util.*;
 import jaca.analysis.*;
 
 @SuppressWarnings("nls")
 public final class AProcedCompletoDecProcedimento extends PDecProcedimento
 {
-    private final LinkedList<TInicioProced> _inicioProced_ = new LinkedList<TInicioProced>();
+    private TInicioProced _inicioProced_;
     private TProcedimento _procedimento_;
     private TId _id_;
     private TParEsq _parEsq_;
@@ -22,7 +21,7 @@ public final class AProcedCompletoDecProcedimento extends PDecProcedimento
     }
 
     public AProcedCompletoDecProcedimento(
-        @SuppressWarnings("hiding") List<?> _inicioProced_,
+        @SuppressWarnings("hiding") TInicioProced _inicioProced_,
         @SuppressWarnings("hiding") TProcedimento _procedimento_,
         @SuppressWarnings("hiding") TId _id_,
         @SuppressWarnings("hiding") TParEsq _parEsq_,
@@ -51,7 +50,7 @@ public final class AProcedCompletoDecProcedimento extends PDecProcedimento
     public Object clone()
     {
         return new AProcedCompletoDecProcedimento(
-            cloneList(this._inicioProced_),
+            cloneNode(this._inicioProced_),
             cloneNode(this._procedimento_),
             cloneNode(this._id_),
             cloneNode(this._parEsq_),
@@ -66,30 +65,29 @@ public final class AProcedCompletoDecProcedimento extends PDecProcedimento
         ((Analysis) sw).caseAProcedCompletoDecProcedimento(this);
     }
 
-    public LinkedList<TInicioProced> getInicioProced()
+    public TInicioProced getInicioProced()
     {
         return this._inicioProced_;
     }
 
-    public void setInicioProced(List<?> list)
+    public void setInicioProced(TInicioProced node)
     {
-        for(TInicioProced e : this._inicioProced_)
+        if(this._inicioProced_ != null)
         {
-            e.parent(null);
+            this._inicioProced_.parent(null);
         }
-        this._inicioProced_.clear();
 
-        for(Object obj_e : list)
+        if(node != null)
         {
-            TInicioProced e = (TInicioProced) obj_e;
-            if(e.parent() != null)
+            if(node.parent() != null)
             {
-                e.parent().removeChild(e);
+                node.parent().removeChild(node);
             }
 
-            e.parent(this);
-            this._inicioProced_.add(e);
+            node.parent(this);
         }
+
+        this._inicioProced_ = node;
     }
 
     public TProcedimento getProcedimento()
@@ -259,8 +257,9 @@ public final class AProcedCompletoDecProcedimento extends PDecProcedimento
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._inicioProced_.remove(child))
+        if(this._inicioProced_ == child)
         {
+            this._inicioProced_ = null;
             return;
         }
 
@@ -307,22 +306,10 @@ public final class AProcedCompletoDecProcedimento extends PDecProcedimento
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        for(ListIterator<TInicioProced> i = this._inicioProced_.listIterator(); i.hasNext();)
+        if(this._inicioProced_ == oldChild)
         {
-            if(i.next() == oldChild)
-            {
-                if(newChild != null)
-                {
-                    i.set((TInicioProced) newChild);
-                    newChild.parent(this);
-                    oldChild.parent(null);
-                    return;
-                }
-
-                i.remove();
-                oldChild.parent(null);
-                return;
-            }
+            setInicioProced((TInicioProced) newChild);
+            return;
         }
 
         if(this._procedimento_ == oldChild)

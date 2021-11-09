@@ -9,12 +9,12 @@ public final class TMetodoImprime extends Token
 {
     public TMetodoImprime()
     {
-        super.setText(".imprime");
+        super.setText("imprime");
     }
 
     public TMetodoImprime(int line, int pos)
     {
-        super.setText(".imprime");
+        super.setText("imprime");
         setLine(line);
         setPos(pos);
     }

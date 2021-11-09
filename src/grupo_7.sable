@@ -35,8 +35,9 @@ Tokens
  constante = 'const';
  e_logico = 'e';
  ou_logico = 'ou';
- metodo_imprime = '.imprime';
- metodo_le = '.lê';
+ classe_reservada ='_ES';
+ metodo_imprime = 'imprime';
+ metodo_le = 'lê';
  comentario = '#'(quase_tudo_linha)*;
  comentario_bloco = '{'(quase_tudo_bloco)*'}';
  
@@ -72,11 +73,11 @@ Tokens
   comentario_bloco,
   vazio;
   
- Productions
+Productions
  
- programa = familia* def_classe*;
+ programa = familia? def_classe*;
  
- familia = 
+ familia =
  	{not_empty} relacao lista_relacoes* ponto_virgula;
  
  lista_relacoes =
@@ -84,19 +85,16 @@ Tokens
  
  relacao = classe [a]:id_class heranca [b]:id_class;
  
- def_classe = classe id_class inicio atributos metodos fim;
- 
- atributos = 
- 	{dec_obj} dec_obj
-   |{dec_var} dec_var
-   |{dec_const} dec_const;
+ def_classe = 
+ 	classe id_class inicio atributos* metodos fim;
  
  metodos = 
- 	{dec_procedimento} dec_procedimento
+ 	{dec_procedimento} dec_procedimento*
    |{dec_funcao} dec_funcao;
  
  dec_obj = 
- 	{obj} objeto tipo_classe id ponto_virgula;
+ 	{obj} objeto tipo_classe id ponto_virgula
+ 	|{obj_reservado} objeto classe_reservada id ponto_virgula;
  
  dec_var =
  	{var} variavel tipo_primitivo id ponto_virgula;
@@ -119,17 +117,17 @@ Tokens
    |{bool} tipo_bool;
    
  dec_procedimento =
- 	{proced_completo} inicio_proced* procedimento id par_esq parametros par_dir comando
-   |{procedimento} procedimento id par_esq parametros par_dir ponto_virgula;
+ 	{proced_completo} inicio_proced? procedimento id par_esq parametros? par_dir comando
+   |{procedimento} procedimento id par_esq parametros? par_dir ponto_virgula;
  
  dec_funcao =
- 	{funcao_completa} funcao tipo id par_esq parametros par_dir expr
-   |{funcao} funcao tipo id par_esq parametros par_dir ponto_virgula;
+ 	{funcao_completa} funcao tipo id par_esq parametros? par_dir expr
+   |{funcao} funcao tipo id par_esq parametros? par_dir ponto_virgula;
  
  parametros =
-   {params} parametro*;
- 	
- list_param =
+   {params} parametro params*;
+	
+ params =
  	{lista} barra parametro;
  	
  parametro = 
@@ -146,17 +144,15 @@ Tokens
  comando_dois =
  	{se_senao} se par_esq expr par_dir [a]:comando_dois senao [b]:comando_dois
    |{bloco} bloco;
-   
- 
- 	
+   	
  bloco = 
- 	{iniciar_bloco}inicio tipo_decl* comando* fim;
+ 	{iniciar_bloco}inicio atributos* comando* fim;
  
- tipo_decl =
+ atributos =
  	{dec_obj} dec_obj
    |{dec_var} dec_var
    |{dec_const} dec_const;
-   
+ 
  expr =
  	{expr_nivel_um} expr_nivel_um
    |{bloco_expr} bloco_exp;
@@ -207,8 +203,10 @@ Tokens
  	{bloco} inicio dec_const* expr fim;
 	
  chamada = 
- 	{chamada_metodo} id par_esq lista_expr* par_dir;
- 
+ 	{chamada_metodo} id par_esq lista_expr* par_dir
+ 	|{reservado_le}   metodo_le par_esq lista_expr* par_dir
+ 	|{reservado_imprime} metodo_imprime par_esq lista_expr* par_dir;
+ 	
  atributo =
  	{id} id;
  	

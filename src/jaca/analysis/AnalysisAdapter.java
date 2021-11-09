@@ -105,24 +105,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseADecObjAtributos(ADecObjAtributos node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseADecVarAtributos(ADecVarAtributos node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseADecConstAtributos(ADecConstAtributos node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
     public void caseADecProcedimentoMetodos(ADecProcedimentoMetodos node)
     {
         defaultCase(node);
@@ -136,6 +118,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseAObjDecObj(AObjDecObj node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAObjReservadoDecObj(AObjReservadoDecObj node)
     {
         defaultCase(node);
     }
@@ -219,7 +207,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAListaListParam(AListaListParam node)
+    public void caseAListaParams(AListaParams node)
     {
         defaultCase(node);
     }
@@ -285,19 +273,19 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseADecObjTipoDecl(ADecObjTipoDecl node)
+    public void caseADecObjAtributos(ADecObjAtributos node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseADecVarTipoDecl(ADecVarTipoDecl node)
+    public void caseADecVarAtributos(ADecVarAtributos node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseADecConstTipoDecl(ADecConstTipoDecl node)
+    public void caseADecConstAtributos(ADecConstAtributos node)
     {
         defaultCase(node);
     }
@@ -477,6 +465,18 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseAReservadoLeChamada(AReservadoLeChamada node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAReservadoImprimeChamada(AReservadoImprimeChamada node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseAIdAtributo(AIdAtributo node)
     {
         defaultCase(node);
@@ -598,6 +598,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTOuLogico(TOuLogico node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTClasseReservada(TClasseReservada node)
     {
         defaultCase(node);
     }

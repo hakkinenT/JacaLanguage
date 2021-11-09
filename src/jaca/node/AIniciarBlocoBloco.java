@@ -9,7 +9,7 @@ import jaca.analysis.*;
 public final class AIniciarBlocoBloco extends PBloco
 {
     private TInicio _inicio_;
-    private final LinkedList<PTipoDecl> _tipoDecl_ = new LinkedList<PTipoDecl>();
+    private final LinkedList<PAtributos> _atributos_ = new LinkedList<PAtributos>();
     private final LinkedList<PComando> _comando_ = new LinkedList<PComando>();
     private TFim _fim_;
 
@@ -20,14 +20,14 @@ public final class AIniciarBlocoBloco extends PBloco
 
     public AIniciarBlocoBloco(
         @SuppressWarnings("hiding") TInicio _inicio_,
-        @SuppressWarnings("hiding") List<?> _tipoDecl_,
+        @SuppressWarnings("hiding") List<?> _atributos_,
         @SuppressWarnings("hiding") List<?> _comando_,
         @SuppressWarnings("hiding") TFim _fim_)
     {
         // Constructor
         setInicio(_inicio_);
 
-        setTipoDecl(_tipoDecl_);
+        setAtributos(_atributos_);
 
         setComando(_comando_);
 
@@ -40,7 +40,7 @@ public final class AIniciarBlocoBloco extends PBloco
     {
         return new AIniciarBlocoBloco(
             cloneNode(this._inicio_),
-            cloneList(this._tipoDecl_),
+            cloneList(this._atributos_),
             cloneList(this._comando_),
             cloneNode(this._fim_));
     }
@@ -76,29 +76,29 @@ public final class AIniciarBlocoBloco extends PBloco
         this._inicio_ = node;
     }
 
-    public LinkedList<PTipoDecl> getTipoDecl()
+    public LinkedList<PAtributos> getAtributos()
     {
-        return this._tipoDecl_;
+        return this._atributos_;
     }
 
-    public void setTipoDecl(List<?> list)
+    public void setAtributos(List<?> list)
     {
-        for(PTipoDecl e : this._tipoDecl_)
+        for(PAtributos e : this._atributos_)
         {
             e.parent(null);
         }
-        this._tipoDecl_.clear();
+        this._atributos_.clear();
 
         for(Object obj_e : list)
         {
-            PTipoDecl e = (PTipoDecl) obj_e;
+            PAtributos e = (PAtributos) obj_e;
             if(e.parent() != null)
             {
                 e.parent().removeChild(e);
             }
 
             e.parent(this);
-            this._tipoDecl_.add(e);
+            this._atributos_.add(e);
         }
     }
 
@@ -158,7 +158,7 @@ public final class AIniciarBlocoBloco extends PBloco
     {
         return ""
             + toString(this._inicio_)
-            + toString(this._tipoDecl_)
+            + toString(this._atributos_)
             + toString(this._comando_)
             + toString(this._fim_);
     }
@@ -173,7 +173,7 @@ public final class AIniciarBlocoBloco extends PBloco
             return;
         }
 
-        if(this._tipoDecl_.remove(child))
+        if(this._atributos_.remove(child))
         {
             return;
         }
@@ -202,13 +202,13 @@ public final class AIniciarBlocoBloco extends PBloco
             return;
         }
 
-        for(ListIterator<PTipoDecl> i = this._tipoDecl_.listIterator(); i.hasNext();)
+        for(ListIterator<PAtributos> i = this._atributos_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((PTipoDecl) newChild);
+                    i.set((PAtributos) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
                     return;

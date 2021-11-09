@@ -5,16 +5,16 @@ package jaca.node;
 import jaca.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TMetodoLe extends Token
+public final class TClasseReservada extends Token
 {
-    public TMetodoLe()
+    public TClasseReservada()
     {
-        super.setText("lê");
+        super.setText("_ES");
     }
 
-    public TMetodoLe(int line, int pos)
+    public TClasseReservada(int line, int pos)
     {
-        super.setText("lê");
+        super.setText("_ES");
         setLine(line);
         setPos(pos);
     }
@@ -22,18 +22,18 @@ public final class TMetodoLe extends Token
     @Override
     public Object clone()
     {
-      return new TMetodoLe(getLine(), getPos());
+      return new TClasseReservada(getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTMetodoLe(this);
+        ((Analysis) sw).caseTClasseReservada(this);
     }
 
     @Override
     public void setText(@SuppressWarnings("unused") String text)
     {
-        throw new RuntimeException("Cannot change TMetodoLe text.");
+        throw new RuntimeException("Cannot change TClasseReservada text.");
     }
 }

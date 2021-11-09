@@ -17,12 +17,10 @@ public interface Analysis extends Switch
     void caseARelacoesListaRelacoes(ARelacoesListaRelacoes node);
     void caseARelacao(ARelacao node);
     void caseADefClasse(ADefClasse node);
-    void caseADecObjAtributos(ADecObjAtributos node);
-    void caseADecVarAtributos(ADecVarAtributos node);
-    void caseADecConstAtributos(ADecConstAtributos node);
     void caseADecProcedimentoMetodos(ADecProcedimentoMetodos node);
     void caseADecFuncaoMetodos(ADecFuncaoMetodos node);
     void caseAObjDecObj(AObjDecObj node);
+    void caseAObjReservadoDecObj(AObjReservadoDecObj node);
     void caseAVarDecVar(AVarDecVar node);
     void caseAConstDecConst(AConstDecConst node);
     void caseAInitInicializacao(AInitInicializacao node);
@@ -36,7 +34,7 @@ public interface Analysis extends Switch
     void caseAFuncaoCompletaDecFuncao(AFuncaoCompletaDecFuncao node);
     void caseAFuncaoDecFuncao(AFuncaoDecFuncao node);
     void caseAParamsParametros(AParamsParametros node);
-    void caseAListaListParam(AListaListParam node);
+    void caseAListaParams(AListaParams node);
     void caseAParamParametro(AParamParametro node);
     void caseASeComando(ASeComando node);
     void caseASeSenaoComando(ASeSenaoComando node);
@@ -47,9 +45,9 @@ public interface Analysis extends Switch
     void caseASeSenaoComandoDois(ASeSenaoComandoDois node);
     void caseABlocoComandoDois(ABlocoComandoDois node);
     void caseAIniciarBlocoBloco(AIniciarBlocoBloco node);
-    void caseADecObjTipoDecl(ADecObjTipoDecl node);
-    void caseADecVarTipoDecl(ADecVarTipoDecl node);
-    void caseADecConstTipoDecl(ADecConstTipoDecl node);
+    void caseADecObjAtributos(ADecObjAtributos node);
+    void caseADecVarAtributos(ADecVarAtributos node);
+    void caseADecConstAtributos(ADecConstAtributos node);
     void caseAExprNivelUmExpr(AExprNivelUmExpr node);
     void caseABlocoExprExpr(ABlocoExprExpr node);
     void caseAExprNivelDoisExprNivelUm(AExprNivelDoisExprNivelUm node);
@@ -79,6 +77,8 @@ public interface Analysis extends Switch
     void caseAParExprNivelOito(AParExprNivelOito node);
     void caseABlocoBlocoExp(ABlocoBlocoExp node);
     void caseAChamadaMetodoChamada(AChamadaMetodoChamada node);
+    void caseAReservadoLeChamada(AReservadoLeChamada node);
+    void caseAReservadoImprimeChamada(AReservadoImprimeChamada node);
     void caseAIdAtributo(AIdAtributo node);
     void caseAExpressoesListaExpr(AExpressoesListaExpr node);
     void caseAListaExprs(AListaExprs node);
@@ -101,6 +101,7 @@ public interface Analysis extends Switch
     void caseTConstante(TConstante node);
     void caseTELogico(TELogico node);
     void caseTOuLogico(TOuLogico node);
+    void caseTClasseReservada(TClasseReservada node);
     void caseTMetodoImprime(TMetodoImprime node);
     void caseTMetodoLe(TMetodoLe node);
     void caseTComentario(TComentario node);

@@ -2,12 +2,13 @@
 
 package jaca.node;
 
+import java.util.*;
 import jaca.analysis.*;
 
 @SuppressWarnings("nls")
 public final class ADecProcedimentoMetodos extends PMetodos
 {
-    private PDecProcedimento _decProcedimento_;
+    private final LinkedList<PDecProcedimento> _decProcedimento_ = new LinkedList<PDecProcedimento>();
 
     public ADecProcedimentoMetodos()
     {
@@ -15,7 +16,7 @@ public final class ADecProcedimentoMetodos extends PMetodos
     }
 
     public ADecProcedimentoMetodos(
-        @SuppressWarnings("hiding") PDecProcedimento _decProcedimento_)
+        @SuppressWarnings("hiding") List<?> _decProcedimento_)
     {
         // Constructor
         setDecProcedimento(_decProcedimento_);
@@ -26,7 +27,7 @@ public final class ADecProcedimentoMetodos extends PMetodos
     public Object clone()
     {
         return new ADecProcedimentoMetodos(
-            cloneNode(this._decProcedimento_));
+            cloneList(this._decProcedimento_));
     }
 
     @Override
@@ -35,29 +36,30 @@ public final class ADecProcedimentoMetodos extends PMetodos
         ((Analysis) sw).caseADecProcedimentoMetodos(this);
     }
 
-    public PDecProcedimento getDecProcedimento()
+    public LinkedList<PDecProcedimento> getDecProcedimento()
     {
         return this._decProcedimento_;
     }
 
-    public void setDecProcedimento(PDecProcedimento node)
+    public void setDecProcedimento(List<?> list)
     {
-        if(this._decProcedimento_ != null)
+        for(PDecProcedimento e : this._decProcedimento_)
         {
-            this._decProcedimento_.parent(null);
+            e.parent(null);
         }
+        this._decProcedimento_.clear();
 
-        if(node != null)
+        for(Object obj_e : list)
         {
-            if(node.parent() != null)
+            PDecProcedimento e = (PDecProcedimento) obj_e;
+            if(e.parent() != null)
             {
-                node.parent().removeChild(node);
+                e.parent().removeChild(e);
             }
 
-            node.parent(this);
+            e.parent(this);
+            this._decProcedimento_.add(e);
         }
-
-        this._decProcedimento_ = node;
     }
 
     @Override
@@ -71,9 +73,8 @@ public final class ADecProcedimentoMetodos extends PMetodos
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._decProcedimento_ == child)
+        if(this._decProcedimento_.remove(child))
         {
-            this._decProcedimento_ = null;
             return;
         }
 
@@ -84,10 +85,22 @@ public final class ADecProcedimentoMetodos extends PMetodos
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._decProcedimento_ == oldChild)
+        for(ListIterator<PDecProcedimento> i = this._decProcedimento_.listIterator(); i.hasNext();)
         {
-            setDecProcedimento((PDecProcedimento) newChild);
-            return;
+            if(i.next() == oldChild)
+            {
+                if(newChild != null)
+                {
+                    i.set((PDecProcedimento) newChild);
+                    newChild.parent(this);
+                    oldChild.parent(null);
+                    return;
+                }
+
+                i.remove();
+                oldChild.parent(null);
+                return;
+            }
         }
 
         throw new RuntimeException("Not a child.");
