@@ -105,13 +105,19 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseADecProcedimentoMetodos(ADecProcedimentoMetodos node)
+    public void caseAProcFuncMetodos(AProcFuncMetodos node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseADecFuncaoMetodos(ADecFuncaoMetodos node)
+    public void caseADecProcedimentoProcFunc(ADecProcedimentoProcFunc node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseADecFuncaoProcFunc(ADecFuncaoProcFunc node)
     {
         defaultCase(node);
     }
@@ -286,6 +292,18 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseADecConstAtributos(ADecConstAtributos node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAExpExprInversora(AExpExprInversora node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAInversorExprInversora(AInversorExprInversora node)
     {
         defaultCase(node);
     }

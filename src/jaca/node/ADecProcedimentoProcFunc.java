@@ -5,46 +5,46 @@ package jaca.node;
 import jaca.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ADecFuncaoMetodos extends PMetodos
+public final class ADecProcedimentoProcFunc extends PProcFunc
 {
-    private PDecFuncao _decFuncao_;
+    private PDecProcedimento _decProcedimento_;
 
-    public ADecFuncaoMetodos()
+    public ADecProcedimentoProcFunc()
     {
         // Constructor
     }
 
-    public ADecFuncaoMetodos(
-        @SuppressWarnings("hiding") PDecFuncao _decFuncao_)
+    public ADecProcedimentoProcFunc(
+        @SuppressWarnings("hiding") PDecProcedimento _decProcedimento_)
     {
         // Constructor
-        setDecFuncao(_decFuncao_);
+        setDecProcedimento(_decProcedimento_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ADecFuncaoMetodos(
-            cloneNode(this._decFuncao_));
+        return new ADecProcedimentoProcFunc(
+            cloneNode(this._decProcedimento_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseADecFuncaoMetodos(this);
+        ((Analysis) sw).caseADecProcedimentoProcFunc(this);
     }
 
-    public PDecFuncao getDecFuncao()
+    public PDecProcedimento getDecProcedimento()
     {
-        return this._decFuncao_;
+        return this._decProcedimento_;
     }
 
-    public void setDecFuncao(PDecFuncao node)
+    public void setDecProcedimento(PDecProcedimento node)
     {
-        if(this._decFuncao_ != null)
+        if(this._decProcedimento_ != null)
         {
-            this._decFuncao_.parent(null);
+            this._decProcedimento_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ADecFuncaoMetodos extends PMetodos
             node.parent(this);
         }
 
-        this._decFuncao_ = node;
+        this._decProcedimento_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._decFuncao_);
+            + toString(this._decProcedimento_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._decFuncao_ == child)
+        if(this._decProcedimento_ == child)
         {
-            this._decFuncao_ = null;
+            this._decProcedimento_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ADecFuncaoMetodos extends PMetodos
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._decFuncao_ == oldChild)
+        if(this._decProcedimento_ == oldChild)
         {
-            setDecFuncao((PDecFuncao) newChild);
+            setDecProcedimento((PDecProcedimento) newChild);
             return;
         }
 

@@ -89,9 +89,12 @@ Productions
  	classe id_class inicio atributos* metodos fim;
  
  metodos = 
- 	{dec_procedimento} dec_procedimento*
+ 	{proc_func} proc_func*;
+   
+ proc_func =
+ 	{dec_procedimento} dec_procedimento
    |{dec_funcao} dec_funcao;
- 
+   
  dec_obj = 
  	{obj} objeto tipo_classe id ponto_virgula
  	|{obj_reservado} objeto classe_reservada id ponto_virgula;
@@ -134,10 +137,10 @@ Productions
  	{param} tipo id;
  
  comando =
-    {se} se par_esq expr par_dir comando
-   |{se_senao} se par_esq expr par_dir comando_dois senao comando
-   |{enquanto} enquanto par_esq expr par_dir comando
-   |{atbr} id atribuicao expr ponto_virgula
+    {se} se par_esq expr_inversora par_dir comando
+   |{se_senao} se par_esq expr_inversora par_dir comando_dois senao comando
+   |{enquanto} enquanto par_esq expr_inversora par_dir comando
+   |{atbr} id atribuicao expr_inversora ponto_virgula
    |{chamada_metd} id ponto chamada ponto_virgula
    |{bloco} bloco;
    
@@ -153,10 +156,16 @@ Productions
    |{dec_var} dec_var
    |{dec_const} dec_const;
  
+ 
+ expr_inversora =
+ 	{exp} expr
+ 	|{inversor} menos expr;
+
+ 	
  expr =
  	{expr_nivel_um} expr_nivel_um
    |{bloco_expr} bloco_exp;
-
+    
  expr_nivel_um =
  	{expr_nivel_dois} expr_nivel_dois
  	|{e_logico} [a]:expr_nivel_dois e_logico [b]:expr_nivel_dois
@@ -215,4 +224,5 @@ Productions
  	
  exprs = 
  	{lista} barra expr;
+ 	
  

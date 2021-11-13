@@ -9,7 +9,7 @@ public final class ASeComando extends PComando
 {
     private TSe _se_;
     private TParEsq _parEsq_;
-    private PExpr _expr_;
+    private PExprInversora _exprInversora_;
     private TParDir _parDir_;
     private PComando _comando_;
 
@@ -21,7 +21,7 @@ public final class ASeComando extends PComando
     public ASeComando(
         @SuppressWarnings("hiding") TSe _se_,
         @SuppressWarnings("hiding") TParEsq _parEsq_,
-        @SuppressWarnings("hiding") PExpr _expr_,
+        @SuppressWarnings("hiding") PExprInversora _exprInversora_,
         @SuppressWarnings("hiding") TParDir _parDir_,
         @SuppressWarnings("hiding") PComando _comando_)
     {
@@ -30,7 +30,7 @@ public final class ASeComando extends PComando
 
         setParEsq(_parEsq_);
 
-        setExpr(_expr_);
+        setExprInversora(_exprInversora_);
 
         setParDir(_parDir_);
 
@@ -44,7 +44,7 @@ public final class ASeComando extends PComando
         return new ASeComando(
             cloneNode(this._se_),
             cloneNode(this._parEsq_),
-            cloneNode(this._expr_),
+            cloneNode(this._exprInversora_),
             cloneNode(this._parDir_),
             cloneNode(this._comando_));
     }
@@ -105,16 +105,16 @@ public final class ASeComando extends PComando
         this._parEsq_ = node;
     }
 
-    public PExpr getExpr()
+    public PExprInversora getExprInversora()
     {
-        return this._expr_;
+        return this._exprInversora_;
     }
 
-    public void setExpr(PExpr node)
+    public void setExprInversora(PExprInversora node)
     {
-        if(this._expr_ != null)
+        if(this._exprInversora_ != null)
         {
-            this._expr_.parent(null);
+            this._exprInversora_.parent(null);
         }
 
         if(node != null)
@@ -127,7 +127,7 @@ public final class ASeComando extends PComando
             node.parent(this);
         }
 
-        this._expr_ = node;
+        this._exprInversora_ = node;
     }
 
     public TParDir getParDir()
@@ -186,7 +186,7 @@ public final class ASeComando extends PComando
         return ""
             + toString(this._se_)
             + toString(this._parEsq_)
-            + toString(this._expr_)
+            + toString(this._exprInversora_)
             + toString(this._parDir_)
             + toString(this._comando_);
     }
@@ -207,9 +207,9 @@ public final class ASeComando extends PComando
             return;
         }
 
-        if(this._expr_ == child)
+        if(this._exprInversora_ == child)
         {
-            this._expr_ = null;
+            this._exprInversora_ = null;
             return;
         }
 
@@ -244,9 +244,9 @@ public final class ASeComando extends PComando
             return;
         }
 
-        if(this._expr_ == oldChild)
+        if(this._exprInversora_ == oldChild)
         {
-            setExpr((PExpr) newChild);
+            setExprInversora((PExprInversora) newChild);
             return;
         }
 

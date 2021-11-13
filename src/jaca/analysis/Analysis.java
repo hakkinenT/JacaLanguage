@@ -17,8 +17,9 @@ public interface Analysis extends Switch
     void caseARelacoesListaRelacoes(ARelacoesListaRelacoes node);
     void caseARelacao(ARelacao node);
     void caseADefClasse(ADefClasse node);
-    void caseADecProcedimentoMetodos(ADecProcedimentoMetodos node);
-    void caseADecFuncaoMetodos(ADecFuncaoMetodos node);
+    void caseAProcFuncMetodos(AProcFuncMetodos node);
+    void caseADecProcedimentoProcFunc(ADecProcedimentoProcFunc node);
+    void caseADecFuncaoProcFunc(ADecFuncaoProcFunc node);
     void caseAObjDecObj(AObjDecObj node);
     void caseAObjReservadoDecObj(AObjReservadoDecObj node);
     void caseAVarDecVar(AVarDecVar node);
@@ -48,6 +49,8 @@ public interface Analysis extends Switch
     void caseADecObjAtributos(ADecObjAtributos node);
     void caseADecVarAtributos(ADecVarAtributos node);
     void caseADecConstAtributos(ADecConstAtributos node);
+    void caseAExpExprInversora(AExpExprInversora node);
+    void caseAInversorExprInversora(AInversorExprInversora node);
     void caseAExprNivelUmExpr(AExprNivelUmExpr node);
     void caseABlocoExprExpr(ABlocoExprExpr node);
     void caseAExprNivelDoisExprNivelUm(AExprNivelDoisExprNivelUm node);

@@ -1,8 +1,8 @@
 Productions
  
- programa = familia* def_classe*;
+ programa = familia? def_classe*;
  
- familia = 
+ familia =
  	{not_empty} relacao lista_relacoes* ponto_virgula;
  
  lista_relacoes =
@@ -10,19 +10,16 @@ Productions
  
  relacao = classe [a]:id_class heranca [b]:id_class;
  
- def_classe = classe id_class inicio atributos metodos fim;
- 
- atributos = 
- 	{dec_obj} dec_obj
-   |{dec_var} dec_var
-   |{dec_const} dec_const;
+ def_classe = 
+ 	classe id_class inicio atributos* metodos fim;
  
  metodos = 
- 	{dec_procedimento} dec_procedimento
+ 	{dec_procedimento} dec_procedimento*
    |{dec_funcao} dec_funcao;
  
  dec_obj = 
- 	{obj} objeto tipo_classe id ponto_virgula;
+ 	{obj} objeto tipo_classe id ponto_virgula
+ 	|{obj_reservado} objeto classe_reservada id ponto_virgula;
  
  dec_var =
  	{var} variavel tipo_primitivo id ponto_virgula;
@@ -45,17 +42,17 @@ Productions
    |{bool} tipo_bool;
    
  dec_procedimento =
- 	{proced_completo} inicio_proced* procedimento id par_esq parametros par_dir comando
-   |{procedimento} procedimento id par_esq parametros par_dir ponto_virgula;
+ 	{proced_completo} inicio_proced? procedimento id par_esq parametros? par_dir comando
+   |{procedimento} procedimento id par_esq parametros? par_dir ponto_virgula;
  
  dec_funcao =
- 	{funcao_completa} funcao tipo id par_esq parametros par_dir expr
-   |{funcao} funcao tipo id par_esq parametros par_dir ponto_virgula;
+ 	{funcao_completa} funcao tipo id par_esq parametros? par_dir expr
+   |{funcao} funcao tipo id par_esq parametros? par_dir ponto_virgula;
  
  parametros =
-   {params} parametro*;
- 	
- list_param =
+   {params} parametro params*;
+	
+ params =
  	{lista} barra parametro;
  	
  parametro = 
@@ -72,69 +69,69 @@ Productions
  comando_dois =
  	{se_senao} se par_esq expr par_dir [a]:comando_dois senao [b]:comando_dois
    |{bloco} bloco;
-   
- 
- 	
+   	
  bloco = 
- 	{iniciar_bloco}inicio tipo_decl* comando* fim;
+ 	{iniciar_bloco}inicio atributos* comando* fim;
  
- tipo_decl =
+ atributos =
  	{dec_obj} dec_obj
    |{dec_var} dec_var
    |{dec_const} dec_const;
-   
- expr =
- 	{expr_nivel_um} expr_nivel_um
-   |{bloco_expr} bloco_exp;
+ 
+ expr {-> a_expr} =
+ 	{expr_nivel_um} expr_nivel_um {-> expr_nivel_um.a_expr}
+   |{bloco_expr} bloco_exp {-> expr.a_expr};
 
- expr_nivel_um =
- 	{expr_nivel_dois} expr_nivel_dois
- 	|{e_logico} [a]:expr_nivel_dois e_logico [b]:expr_nivel_dois
- 	|{ou_logico} [a]:expr_nivel_dois ou_logico [b]:expr_nivel_dois;
+ expr_nivel_um {-> a_expr} =
+ 	{expr_nivel_dois} expr_nivel_dois {-> expr_nivel_dois.a_expr}
+ 	|{e_logico} [a]:expr_nivel_dois e_logico [b]:expr_nivel_dois {-> New a_expr.a_e_logico(esq.a_expr, dir.a_expr)}
+ 	|{ou_logico} [a]:expr_nivel_dois ou_logico [b]:expr_nivel_dois {-> New a_expr.a_ou_logico(esq.a_expr, dir.a_expr)};
  	
-  expr_nivel_dois =
- 	{expr_nivel_tres} expr_nivel_tres
-   |{igual} [a]:expr_nivel_tres igual [b]:expr_nivel_tres;
+  expr_nivel_dois {-> a_expr} =
+ 	{expr_nivel_tres} expr_nivel_tres {-> expr_nivel_tres.a_expr}
+   |{igual} [a]:expr_nivel_tres igual [b]:expr_nivel_tres {-> New a_expr.a_igual(esq.a_expr, dir.a_expr)};
  	
- expr_nivel_tres =
- 	{expr_nivel_quatro} expr_nivel_quatro
-   |{menor} [a]:expr_nivel_quatro menor [b]:expr_nivel_quatro
-   |{menor_igual} [a]:expr_nivel_quatro menor_igual [b]:expr_nivel_quatro;
+ expr_nivel_tres {-> a_expr} =
+ 	{expr_nivel_quatro} expr_nivel_quatro {-> expr_nivel_quatro.a_expr}
+   |{menor} [a]:expr_nivel_quatro menor [b]:expr_nivel_quatro {-> New a_expr.a_menor(esq.a_expr, dir.a_expr)}
+   |{menor_igual} [a]:expr_nivel_quatro menor_igual [b]:expr_nivel_quatro {-> New a_expr.a_menor_igual(esq.a_expr, dir.a_expr)};
     	
- expr_nivel_quatro =
- 	{expr_nivel_cinco} expr_nivel_cinco
-   |{soma} [a]:expr_nivel_cinco soma [b]:expr_nivel_cinco
-   |{menos} [a]:expr_nivel_cinco menos [b]:expr_nivel_cinco;
+ expr_nivel_quatro {-> a_expr} =
+ 	{expr_nivel_cinco} expr_nivel_cinco {-> expr_nivel_cinco.a_expr}
+   |{soma} [a]:expr_nivel_cinco soma [b]:expr_nivel_cinco {-> New a_expr.a_soma(esq.a_expr, dir.a_expr)}
+   |{menos} [a]:expr_nivel_cinco menos [b]:expr_nivel_cinco {-> New a_expr.a_menos(esq.a_expr, dir.a_expr)};
    
-  expr_nivel_cinco =
- 	{expr_nivel_seis} expr_nivel_seis
+  expr_nivel_cinco {-> a_expr} =
+ 	{expr_nivel_seis} expr_nivel_seis {-> expr_nivel_seis.a_expr}
    |{negacao} negacao expr_nivel_seis;
    
- expr_nivel_seis =
- 	{expr_nivel_sete} expr_nivel_sete
-   |{mod} expr_nivel_seis mod expr_nivel_sete; 
+ expr_nivel_seis {-> a_expr} =
+ 	{expr_nivel_sete} expr_nivel_sete {-> expr_nivel_sete.a_expr}
+   |{mod} expr_nivel_seis mod expr_nivel_sete {-> New a_expr.a_mod(esq.a_expr, dir.a_expr)}; 
  	
- expr_nivel_sete =
- 	{expr_nivel_oito} expr_nivel_oito
-   |{mult} expr_nivel_sete mult expr_nivel_oito
-   |{div} expr_nivel_sete div expr_nivel_oito;
+ expr_nivel_sete {-> a_expr} =
+ 	{expr_nivel_oito} expr_nivel_oito {-> expr_nivel_oito.a_expr}
+   |{mult} expr_nivel_sete mult expr_nivel_oito {-> New a_expr.a_mult(esq.a_expr, dir.a_expr)}
+   |{div} expr_nivel_sete div expr_nivel_oito {-> New a_expr.a_div(esq.a_expr, dir.a_expr)};
    
    
  expr_nivel_oito =
- 	{identifier} id
-   |{n_real} numero_real
-   |{chamada_metd} id ponto chamada ponto_virgula
-   |{chamada_atributo} id ponto atributo ponto_virgula
-   |{verdade} verdade
-   |{falso} falso
-   |{par} par_esq expr par_dir;
+ 	{identifier} id {-> New a_expr.a_identifier(id)}
+   |{n_real} numero_real {-> New a_expr.a_n_real(numero_real)}
+   |{chamada_metd} id ponto chamada ponto_virgula {-> New a_expr.a_chamada_metd(id, chamada)}
+   |{chamada_atributo} id ponto atributo ponto_virgula {-> New a_expr.a_chamada_metd(esq.id, dir.id)}
+   |{verdade} verdade {-> New a_expr.a_verdade(verdade)}
+   |{falso} falso {-> New a_expr.a_falso(falso)}
+   |{par} par_esq expr par_dir {-> expr.a_expr};
     
  bloco_exp =
  	{bloco} inicio dec_const* expr fim;
 	
  chamada = 
- 	{chamada_metodo} id par_esq lista_expr* par_dir;
- 
+ 	{chamada_metodo} id par_esq lista_expr* par_dir
+ 	|{reservado_le}   metodo_le par_esq lista_expr* par_dir
+ 	|{reservado_imprime} metodo_imprime par_esq lista_expr* par_dir;
+ 	
  atributo =
  	{id} id;
  	
@@ -143,5 +140,4 @@ Productions
  	
  exprs = 
  	{lista} barra expr;
- 
  

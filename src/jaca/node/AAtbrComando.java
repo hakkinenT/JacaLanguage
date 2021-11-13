@@ -9,7 +9,7 @@ public final class AAtbrComando extends PComando
 {
     private TId _id_;
     private TAtribuicao _atribuicao_;
-    private PExpr _expr_;
+    private PExprInversora _exprInversora_;
     private TPontoVirgula _pontoVirgula_;
 
     public AAtbrComando()
@@ -20,7 +20,7 @@ public final class AAtbrComando extends PComando
     public AAtbrComando(
         @SuppressWarnings("hiding") TId _id_,
         @SuppressWarnings("hiding") TAtribuicao _atribuicao_,
-        @SuppressWarnings("hiding") PExpr _expr_,
+        @SuppressWarnings("hiding") PExprInversora _exprInversora_,
         @SuppressWarnings("hiding") TPontoVirgula _pontoVirgula_)
     {
         // Constructor
@@ -28,7 +28,7 @@ public final class AAtbrComando extends PComando
 
         setAtribuicao(_atribuicao_);
 
-        setExpr(_expr_);
+        setExprInversora(_exprInversora_);
 
         setPontoVirgula(_pontoVirgula_);
 
@@ -40,7 +40,7 @@ public final class AAtbrComando extends PComando
         return new AAtbrComando(
             cloneNode(this._id_),
             cloneNode(this._atribuicao_),
-            cloneNode(this._expr_),
+            cloneNode(this._exprInversora_),
             cloneNode(this._pontoVirgula_));
     }
 
@@ -100,16 +100,16 @@ public final class AAtbrComando extends PComando
         this._atribuicao_ = node;
     }
 
-    public PExpr getExpr()
+    public PExprInversora getExprInversora()
     {
-        return this._expr_;
+        return this._exprInversora_;
     }
 
-    public void setExpr(PExpr node)
+    public void setExprInversora(PExprInversora node)
     {
-        if(this._expr_ != null)
+        if(this._exprInversora_ != null)
         {
-            this._expr_.parent(null);
+            this._exprInversora_.parent(null);
         }
 
         if(node != null)
@@ -122,7 +122,7 @@ public final class AAtbrComando extends PComando
             node.parent(this);
         }
 
-        this._expr_ = node;
+        this._exprInversora_ = node;
     }
 
     public TPontoVirgula getPontoVirgula()
@@ -156,7 +156,7 @@ public final class AAtbrComando extends PComando
         return ""
             + toString(this._id_)
             + toString(this._atribuicao_)
-            + toString(this._expr_)
+            + toString(this._exprInversora_)
             + toString(this._pontoVirgula_);
     }
 
@@ -176,9 +176,9 @@ public final class AAtbrComando extends PComando
             return;
         }
 
-        if(this._expr_ == child)
+        if(this._exprInversora_ == child)
         {
-            this._expr_ = null;
+            this._exprInversora_ = null;
             return;
         }
 
@@ -207,9 +207,9 @@ public final class AAtbrComando extends PComando
             return;
         }
 
-        if(this._expr_ == oldChild)
+        if(this._exprInversora_ == oldChild)
         {
-            setExpr((PExpr) newChild);
+            setExprInversora((PExprInversora) newChild);
             return;
         }
 

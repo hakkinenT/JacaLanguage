@@ -1,0 +1,86 @@
+a_expr = 
+	{a_identifier} id
+	|{a_n_real} numero_real
+	|{a_verdade} verdade
+	|{a_falso} falso
+	|{a_chamada_atributo} [esq]:id [dir]:id
+	|{a_chamada_metd} id chamada
+	|{a_soma} [esq]:a_expr [dir]:a_expr
+	|{a_menos} [esq]:a_expr [dir]:a_expr
+	|{a_mult} [esq]:a_expr [dir]:a_expr
+	|{a_div} [esq]:a_expr [dir]:a_expr
+	|{a_mod} [esq]:a_expr [dir]:a_expr
+	|{a_igual} [esq]:a_expr [dir]:a_expr
+	|{a_e_logico} [esq]:a_expr [dir]:a_expr
+	|{a_ou_logico} [esq]:a_expr [dir]:a_expr
+	|{a_menor} [esq]:a_expr [dir]:a_expr
+	|{a_menor_igual} [esq]:a_expr [dir]:a_expr;
+	
+a_lista_relacoes =
+	{a_relacoes} a_lista_relacao;
+	
+a_relacao = 
+	[esq]:a_relacao [dir]:a_relacao;
+	
+a_dec_obj =
+	{a_obj} tipo_classe id
+	{a_obj_reservado} classe_reservada id;
+	
+a_dec_var =
+	{a_var} tipo_primitivo id;
+	
+a_dec_const =
+	{a_const} tipo_primitivo;
+	
+a_inicializacao =
+	{a_init} id a_expr;
+	
+a_tipo =
+	{a_tipo_classe} a_tipo
+	{a_tipo_prmitivo} a_tipo;
+	
+a_tipo_classe =
+	{a_classe} id_class;
+	
+a_tipo_primitivo =
+	{a_real} tipo_real
+	{a_bool} tipo_bool;
+	
+a_params =
+	{a_lista} parametro;
+	
+a_parametro =
+ 	{a_param} tipo id;
+ 	
+a_comando =
+	{a_se} a_expr comando
+	{a_se_senao} a_expr comando_dois comando
+	{a_enquanto} a_expr comando
+	{a_atbr} id a_expr
+	{a_chamada_metd} id chamada
+	{a_bloco} a_bloco;
+	
+a_comando_dois =
+	{a_se_senao} a_expr [esq]:a_comando_dois [dir]:a_comando_dois;
+	{a_bloco} a_bloco;
+	
+a_atributos =
+	{a_dec_obj} a_dec_obj
+	{a_dec_var} a_dec_var
+	{a_dec_const} a_dec_const;
+	
+a_atributo = 
+	{a_id} id
+	
+a_programa =
+{a_programa1} def_classe
+{a_programa2} familia def_classe*;
+
+
+{function} [name]:identifier [args]:expr*;
+
+{function} [name]:identifier left_paren [args]:arg_list right_paren;
+
+arg_list =
+{single} [arg]:expr
+| {multiple} [arg]:expr comma [rest]:arg_list;

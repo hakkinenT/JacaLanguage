@@ -6,59 +6,59 @@ import java.util.*;
 import jaca.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ADecProcedimentoMetodos extends PMetodos
+public final class AProcFuncMetodos extends PMetodos
 {
-    private final LinkedList<PDecProcedimento> _decProcedimento_ = new LinkedList<PDecProcedimento>();
+    private final LinkedList<PProcFunc> _procFunc_ = new LinkedList<PProcFunc>();
 
-    public ADecProcedimentoMetodos()
+    public AProcFuncMetodos()
     {
         // Constructor
     }
 
-    public ADecProcedimentoMetodos(
-        @SuppressWarnings("hiding") List<?> _decProcedimento_)
+    public AProcFuncMetodos(
+        @SuppressWarnings("hiding") List<?> _procFunc_)
     {
         // Constructor
-        setDecProcedimento(_decProcedimento_);
+        setProcFunc(_procFunc_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ADecProcedimentoMetodos(
-            cloneList(this._decProcedimento_));
+        return new AProcFuncMetodos(
+            cloneList(this._procFunc_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseADecProcedimentoMetodos(this);
+        ((Analysis) sw).caseAProcFuncMetodos(this);
     }
 
-    public LinkedList<PDecProcedimento> getDecProcedimento()
+    public LinkedList<PProcFunc> getProcFunc()
     {
-        return this._decProcedimento_;
+        return this._procFunc_;
     }
 
-    public void setDecProcedimento(List<?> list)
+    public void setProcFunc(List<?> list)
     {
-        for(PDecProcedimento e : this._decProcedimento_)
+        for(PProcFunc e : this._procFunc_)
         {
             e.parent(null);
         }
-        this._decProcedimento_.clear();
+        this._procFunc_.clear();
 
         for(Object obj_e : list)
         {
-            PDecProcedimento e = (PDecProcedimento) obj_e;
+            PProcFunc e = (PProcFunc) obj_e;
             if(e.parent() != null)
             {
                 e.parent().removeChild(e);
             }
 
             e.parent(this);
-            this._decProcedimento_.add(e);
+            this._procFunc_.add(e);
         }
     }
 
@@ -66,14 +66,14 @@ public final class ADecProcedimentoMetodos extends PMetodos
     public String toString()
     {
         return ""
-            + toString(this._decProcedimento_);
+            + toString(this._procFunc_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._decProcedimento_.remove(child))
+        if(this._procFunc_.remove(child))
         {
             return;
         }
@@ -85,13 +85,13 @@ public final class ADecProcedimentoMetodos extends PMetodos
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        for(ListIterator<PDecProcedimento> i = this._decProcedimento_.listIterator(); i.hasNext();)
+        for(ListIterator<PProcFunc> i = this._procFunc_.listIterator(); i.hasNext();)
         {
             if(i.next() == oldChild)
             {
                 if(newChild != null)
                 {
-                    i.set((PDecProcedimento) newChild);
+                    i.set((PProcFunc) newChild);
                     newChild.parent(this);
                     oldChild.parent(null);
                     return;

@@ -5,6 +5,7 @@ início
 	início
 		var real true;
 		objeto _Carro carro;
+		var real teste;
 		
 		interface.imprime(carro.cor;);
 		
@@ -12,6 +13,7 @@ início
 		início
 			objeto _Humano h;
 			animal := h;
+			teste := -3,5;
 		fim
 		senão
 		início

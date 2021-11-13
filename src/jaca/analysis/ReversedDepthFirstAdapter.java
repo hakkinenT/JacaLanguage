@@ -201,50 +201,71 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outADefClasse(node);
     }
 
-    public void inADecProcedimentoMetodos(ADecProcedimentoMetodos node)
+    public void inAProcFuncMetodos(AProcFuncMetodos node)
     {
         defaultIn(node);
     }
 
-    public void outADecProcedimentoMetodos(ADecProcedimentoMetodos node)
+    public void outAProcFuncMetodos(AProcFuncMetodos node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseADecProcedimentoMetodos(ADecProcedimentoMetodos node)
+    public void caseAProcFuncMetodos(AProcFuncMetodos node)
     {
-        inADecProcedimentoMetodos(node);
+        inAProcFuncMetodos(node);
         {
-            List<PDecProcedimento> copy = new ArrayList<PDecProcedimento>(node.getDecProcedimento());
+            List<PProcFunc> copy = new ArrayList<PProcFunc>(node.getProcFunc());
             Collections.reverse(copy);
-            for(PDecProcedimento e : copy)
+            for(PProcFunc e : copy)
             {
                 e.apply(this);
             }
         }
-        outADecProcedimentoMetodos(node);
+        outAProcFuncMetodos(node);
     }
 
-    public void inADecFuncaoMetodos(ADecFuncaoMetodos node)
+    public void inADecProcedimentoProcFunc(ADecProcedimentoProcFunc node)
     {
         defaultIn(node);
     }
 
-    public void outADecFuncaoMetodos(ADecFuncaoMetodos node)
+    public void outADecProcedimentoProcFunc(ADecProcedimentoProcFunc node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseADecFuncaoMetodos(ADecFuncaoMetodos node)
+    public void caseADecProcedimentoProcFunc(ADecProcedimentoProcFunc node)
     {
-        inADecFuncaoMetodos(node);
+        inADecProcedimentoProcFunc(node);
+        if(node.getDecProcedimento() != null)
+        {
+            node.getDecProcedimento().apply(this);
+        }
+        outADecProcedimentoProcFunc(node);
+    }
+
+    public void inADecFuncaoProcFunc(ADecFuncaoProcFunc node)
+    {
+        defaultIn(node);
+    }
+
+    public void outADecFuncaoProcFunc(ADecFuncaoProcFunc node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseADecFuncaoProcFunc(ADecFuncaoProcFunc node)
+    {
+        inADecFuncaoProcFunc(node);
         if(node.getDecFuncao() != null)
         {
             node.getDecFuncao().apply(this);
         }
-        outADecFuncaoMetodos(node);
+        outADecFuncaoProcFunc(node);
     }
 
     public void inAObjDecObj(AObjDecObj node)
@@ -790,9 +811,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         {
             node.getParDir().apply(this);
         }
-        if(node.getExpr() != null)
+        if(node.getExprInversora() != null)
         {
-            node.getExpr().apply(this);
+            node.getExprInversora().apply(this);
         }
         if(node.getParEsq() != null)
         {
@@ -835,9 +856,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         {
             node.getParDir().apply(this);
         }
-        if(node.getExpr() != null)
+        if(node.getExprInversora() != null)
         {
-            node.getExpr().apply(this);
+            node.getExprInversora().apply(this);
         }
         if(node.getParEsq() != null)
         {
@@ -872,9 +893,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         {
             node.getParDir().apply(this);
         }
-        if(node.getExpr() != null)
+        if(node.getExprInversora() != null)
         {
-            node.getExpr().apply(this);
+            node.getExprInversora().apply(this);
         }
         if(node.getParEsq() != null)
         {
@@ -905,9 +926,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         {
             node.getPontoVirgula().apply(this);
         }
-        if(node.getExpr() != null)
+        if(node.getExprInversora() != null)
         {
-            node.getExpr().apply(this);
+            node.getExprInversora().apply(this);
         }
         if(node.getAtribuicao() != null)
         {
@@ -1142,6 +1163,52 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getDecConst().apply(this);
         }
         outADecConstAtributos(node);
+    }
+
+    public void inAExpExprInversora(AExpExprInversora node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAExpExprInversora(AExpExprInversora node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAExpExprInversora(AExpExprInversora node)
+    {
+        inAExpExprInversora(node);
+        if(node.getExpr() != null)
+        {
+            node.getExpr().apply(this);
+        }
+        outAExpExprInversora(node);
+    }
+
+    public void inAInversorExprInversora(AInversorExprInversora node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAInversorExprInversora(AInversorExprInversora node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAInversorExprInversora(AInversorExprInversora node)
+    {
+        inAInversorExprInversora(node);
+        if(node.getExpr() != null)
+        {
+            node.getExpr().apply(this);
+        }
+        if(node.getMenos() != null)
+        {
+            node.getMenos().apply(this);
+        }
+        outAInversorExprInversora(node);
     }
 
     public void inAExprNivelUmExpr(AExprNivelUmExpr node)
