@@ -121,7 +121,7 @@ Productions
    ;
   
  tipo {-> a_tipo} =
- 	{tipo_classe} tipo_classe {-> tipo_classe.a_tipo_classe}
+ 	{tipo_classe} tipo_classe {-> a_tipo.a_tipo_classe}
    |{tipo_primitivo} tipo_primitivo {-> tipo_primitivo.a_tipo_primitivo}
   ;
  
@@ -183,53 +183,53 @@ Productions
  	
 expr {-> a_expr} =
  	{expr_nivel_um} expr_nivel_um {-> expr_nivel_um.a_expr}
-   |{bloco_exp} bloco_exp {-> New a_expr.a_bloco_exp(expr.a_expr)};
+   |{bloco_exp} bloco_exp {-> bloco_exp.a_bloco_exp};
 
  expr_nivel_um {-> a_expr} =
  	{expr_nivel_dois} expr_nivel_dois {-> expr_nivel_dois.a_expr}
- 	|{e_logico} [a]:expr_nivel_dois e_logico [b]:expr_nivel_dois {-> New a_expr.a_e_logico(esq.a_expr, dir.a_expr)}
- 	|{ou_logico} [a]:expr_nivel_dois ou_logico [b]:expr_nivel_dois {-> New a_expr.a_ou_logico(esq.a_expr, dir.a_expr)};
+ 	|{e_logico} [esq]:expr_nivel_dois e_logico [dir]:expr_nivel_dois {-> New a_expr.a_e_logico(esq.a_expr, dir.a_expr)}
+ 	|{ou_logico} [esq]:expr_nivel_dois ou_logico [dir]:expr_nivel_dois {-> New a_expr.a_ou_logico(esq.a_expr, dir.a_expr)};
  	
   expr_nivel_dois {-> a_expr} =
  	{expr_nivel_tres} expr_nivel_tres {-> expr_nivel_tres.a_expr}
-   |{igual} [a]:expr_nivel_tres igual [b]:expr_nivel_tres {-> New a_expr.a_igual(esq.a_expr, dir.a_expr)};
+   |{igual} [esq]:expr_nivel_tres igual [dir]:expr_nivel_tres {-> New a_expr.a_igual(esq.a_expr, dir.a_expr)};
  	
  expr_nivel_tres {-> a_expr} =
  	{expr_nivel_quatro} expr_nivel_quatro {-> expr_nivel_quatro.a_expr}
-   |{menor} [a]:expr_nivel_quatro menor [b]:expr_nivel_quatro {-> New a_expr.a_menor(esq.a_expr, dir.a_expr)}
-   |{menor_igual} [a]:expr_nivel_quatro menor_igual [b]:expr_nivel_quatro {-> New a_expr.a_menor_igual(esq.a_expr, dir.a_expr)};
+   |{menor} [esq]:expr_nivel_quatro menor [dir]:expr_nivel_quatro {-> New a_expr.a_menor(esq.a_expr, dir.a_expr)}
+   |{menor_igual} [esq]:expr_nivel_quatro menor_igual [dir]:expr_nivel_quatro {-> New a_expr.a_menor_igual(esq.a_expr, dir.a_expr)};
     	
  expr_nivel_quatro {-> a_expr} =
  	{expr_nivel_cinco} expr_nivel_cinco {-> expr_nivel_cinco.a_expr}
-   |{soma} [a]:expr_nivel_cinco soma [b]:expr_nivel_cinco {-> New a_expr.a_soma(esq.a_expr, dir.a_expr)}
-   |{menos} [a]:expr_nivel_cinco menos [b]:expr_nivel_cinco {-> New a_expr.a_menos(esq.a_expr, dir.a_expr)};
+   |{soma} [esq]:expr_nivel_cinco soma [dir]:expr_nivel_cinco {-> New a_expr.a_soma(esq.a_expr, dir.a_expr)}
+   |{menos} [esq]:expr_nivel_cinco menos [dir]:expr_nivel_cinco {-> New a_expr.a_menos(esq.a_expr, dir.a_expr)};
    
   expr_nivel_cinco {-> a_expr} =
  	{expr_nivel_seis} expr_nivel_seis {-> expr_nivel_seis.a_expr}
-   |{negacao} negacao expr_nivel_seis;
+   |{negacao} negacao expr_nivel_seis {-> expr_nivel_seis.a_expr};
    
  expr_nivel_seis {-> a_expr} =
  	{expr_nivel_sete} expr_nivel_sete {-> expr_nivel_sete.a_expr}
-   |{mod} expr_nivel_seis mod expr_nivel_sete {-> New a_expr.a_mod(esq.a_expr, dir.a_expr)}; 
+   |{mod} [esq]:expr_nivel_seis mod [dir]:expr_nivel_sete {-> New a_expr.a_mod(esq.a_expr, dir.a_expr)}; 
  	
  expr_nivel_sete {-> a_expr} =
  	{expr_nivel_oito} expr_nivel_oito {-> expr_nivel_oito.a_expr}
-   |{mult} expr_nivel_sete mult expr_nivel_oito {-> New a_expr.a_mult(esq.a_expr, dir.a_expr)}
-   |{div} expr_nivel_sete div expr_nivel_oito {-> New a_expr.a_div(esq.a_expr, dir.a_expr)};
+   |{mult} [esq]:expr_nivel_sete mult [dir]:expr_nivel_oito {-> New a_expr.a_mult(esq.a_expr, dir.a_expr)}
+   |{div} [esq]:expr_nivel_sete div [dir]:expr_nivel_oito {-> New a_expr.a_div(esq.a_expr, dir.a_expr)};
    
    
  expr_nivel_oito {-> a_expr}=
  	{identifier} id {-> New a_expr.a_identifier(id)}
    |{n_real} numero_real {-> New a_expr.a_n_real(numero_real)}
-   |{chamada_metd} id ponto chamada ponto_virgula {-> New a_expr.a_chamada_metd(id, chamada)}
-   |{chamada_atributo} id ponto atributo ponto_virgula {-> New a_expr.a_chamada_metd(esq.id, dir.id)}
+   |{chamada_metd} id ponto chamada ponto_virgula {-> New a_expr.a_chamada_metd(id, chamada.a_chamada)}
+   |{chamada_atributo} id ponto atributo ponto_virgula {-> New a_expr.a_chamada_atributo(id, atributo.a_atributo)}
    |{verdade} verdade {-> New a_expr.a_verdade(verdade)}
    |{falso} falso {-> New a_expr.a_falso(falso)}
    |{par} par_esq expr par_dir {-> expr.a_expr};
     
     
  bloco_exp {-> a_bloco_exp}=
- 	{bloco} inicio dec_const* expr fim {-> New a_bloco_expr.a_bloco([dec_const.a_dec_const], expr.a_expr)};
+ 	{bloco} inicio dec_const* expr fim {-> New a_bloco_exp.a_bloco([dec_const.a_dec_const], expr.a_expr)};
 	
  chamada {-> a_chamada}= 
  	{chamada_metodo} id par_esq lista_expr* par_dir {-> New a_chamada.a_chamada_metodo(id, [lista_expr.a_lista_expr])}
@@ -288,8 +288,8 @@ expr {-> a_expr} =
 	{a_init} id a_expr;
 	
  a_tipo =
-	{a_tipo_classe} a_tipo
-	|{a_tipo_prmitivo} a_tipo;
+	{a_tipo_classe} a_tipo_classe
+	|{a_tipo_primitivo} a_tipo_primitivo;
 	
  a_tipo_classe =
 	{a_classe} id_class;
@@ -345,7 +345,7 @@ expr {-> a_expr} =
 	|{a_n_real} numero_real
 	|{a_verdade} verdade
 	|{a_falso} falso
-	|{a_chamada_atributo} [esq]:id [dir]:id
+	|{a_chamada_atributo} id a_atributo
 	|{a_chamada_metd} id a_chamada
 	|{a_soma} [esq]:a_expr [dir]:a_expr
 	|{a_menos} [esq]:a_expr [dir]:a_expr
@@ -356,8 +356,7 @@ expr {-> a_expr} =
 	|{a_e_logico} [esq]:a_expr [dir]:a_expr
 	|{a_ou_logico} [esq]:a_expr [dir]:a_expr
 	|{a_menor} [esq]:a_expr [dir]:a_expr
-	|{a_menor_igual} [esq]:a_expr [dir]:a_expr
-	|{a_bloco_exp} a_bloco_exp;
+	|{a_menor_igual} [esq]:a_expr [dir]:a_expr;
 	
  a_bloco_exp =
 	{a_bloco} a_dec_const* a_expr;
