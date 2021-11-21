@@ -121,8 +121,8 @@ Productions
    ;
   
  tipo {-> a_tipo} =
- 	{tipo_classe} tipo_classe {-> a_tipo.a_tipo_classe}
-   |{tipo_primitivo} tipo_primitivo {-> tipo_primitivo.a_tipo_primitivo}
+ 	{tipo_classe} tipo_classe {-> New a_tipo.a_tipo_classe(tipo_classe.a_tipo_classe)}
+   |{tipo_primitivo} tipo_primitivo {-> New a_tipo.a_tipo_primitivo(tipo_primitivo.a_tipo_primitivo)}
   ;
  
  tipo_classe {-> a_tipo_classe} = 
@@ -171,19 +171,19 @@ Productions
  ;
  
  atributos {-> a_atributos} =
- 	{dec_obj} dec_obj {-> dec_obj.a_dec_obj}
-   |{dec_var} dec_var {-> dec_var.a_dec_var}
-   |{dec_const} dec_const {-> dec_const.a_dec_const};
+ 	{dec_obj} dec_obj {-> New a_atributos.a_dec_obj(dec_obj.a_dec_obj)}
+   |{dec_var} dec_var {-> New a_atributos.a_dec_var(dec_var.a_dec_var)}
+   |{dec_const} dec_const {-> New a_atributos.a_dec_const(dec_const.a_dec_const)};
  
  
  expr_inversora {-> a_expr_inversora} =
- 	{expr} expr {-> expr.a_expr}
- 	|{inversor} menos expr {-> expr.a_expr};
+ 	{expr} expr {-> New a_expr_inversora.a_expr(expr.a_expr)}
+ 	|{inversor} menos expr {-> New a_expr_inversora.a_expr(expr.a_expr)};
 
  	
 expr {-> a_expr} =
  	{expr_nivel_um} expr_nivel_um {-> expr_nivel_um.a_expr}
-   |{bloco_exp} bloco_exp {-> bloco_exp.a_bloco_exp};
+   |{bloco_exp} bloco_exp {-> New a_expr.a_bloco_exp(bloco_exp.a_bloco_exp)};
 
  expr_nivel_um {-> a_expr} =
  	{expr_nivel_dois} expr_nivel_dois {-> expr_nivel_dois.a_expr}
@@ -245,7 +245,7 @@ expr {-> a_expr} =
   ;
  	
  exprs {-> a_exprs}= 
- 	{lista} barra expr {-> expr.a_expr};
+ 	{lista} barra expr {-> New a_exprs.a_lista(expr.a_expr)};
  	
  
  
@@ -356,7 +356,8 @@ expr {-> a_expr} =
 	|{a_e_logico} [esq]:a_expr [dir]:a_expr
 	|{a_ou_logico} [esq]:a_expr [dir]:a_expr
 	|{a_menor} [esq]:a_expr [dir]:a_expr
-	|{a_menor_igual} [esq]:a_expr [dir]:a_expr;
+	|{a_menor_igual} [esq]:a_expr [dir]:a_expr
+	|{a_bloco_exp} a_bloco_exp;
 	
  a_bloco_exp =
 	{a_bloco} a_dec_const* a_expr;
