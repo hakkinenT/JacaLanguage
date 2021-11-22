@@ -75,177 +75,177 @@ Tokens
   
 Productions
  
- programa {-> a_programa} = familia? def_classe* {-> New a_programa(familia.a_familia, [def_classe.a_def_classe])}
+ p_programa {-> a_programa} = p_familia? p_def_classe* {-> New a_programa(p_familia.a_familia, [p_def_classe.a_def_classe])}
  ;
  
- familia {-> a_familia}=
- 	{not_empty} relacao lista_relacoes* ponto_virgula {-> New a_familia.a_not_empty(relacao.a_relacao, [lista_relacoes.a_lista_relacoes])}
+ p_familia {-> a_familia}=
+ 	{not_empty} p_relacao p_lista_relacoes* ponto_virgula {-> New a_familia.ar_not_empty(p_relacao.a_relacao, [p_lista_relacoes.a_lista_relacoes])}
  ;
  
- lista_relacoes {-> a_lista_relacoes} =
- 	{relacoes} relacao_symbol relacao {-> New a_lista_relacoes.a_relacoes(relacao.a_relacao)}
+ p_lista_relacoes {-> a_lista_relacoes} =
+ 	{relacoes} relacao_symbol p_relacao {-> New a_lista_relacoes.ar_relacoes(p_relacao.a_relacao)}
  ; 
  
- relacao {-> a_relacao} = 
- 	{rel} classe [esq]:id_class heranca [dir]:id_class {-> New a_relacao.a_rel(esq, dir)}
+ p_relacao {-> a_relacao} = 
+ 	{rel} classe [esq]:id_class heranca [dir]:id_class {-> New a_relacao.ar_rel(esq, dir)}
  ;
  
- def_classe {-> a_def_classe} = 
- 	{defini} classe id_class inicio atributos* metodos fim {-> New a_def_classe.a_defini(id_class, [atributos.a_atributos], [metodos.a_metodos])}
+ p_def_classe {-> a_def_classe} = 
+ 	{defini} classe id_class inicio p_atributos* p_metodos fim {-> New a_def_classe.ar_defini(id_class, [p_atributos.a_atributos], [p_metodos.a_metodos])}
  ;
  
- metodos {-> a_metodos} = 
- 	proc_func* {-> New a_metodos.a_proc_func([proc_func.a_proc_func])}
+ p_metodos {-> a_metodos} = 
+ 	p_proc_func* {-> New a_metodos.ar_proc_func([p_proc_func.a_proc_func])}
  ;
    
- proc_func {-> a_proc_func} =
- 	{dec_procedimento} dec_procedimento {-> New a_proc_func.a_dec_procedimento(dec_procedimento.a_dec_procedimento)}
-   |{dec_funcao} dec_funcao {-> New a_proc_func.a_dec_funcao(dec_funcao.a_dec_funcao)}
+ p_proc_func {-> a_proc_func} =
+ 	{dec_procedimento} p_dec_procedimento {-> New a_proc_func.ar_dec_procedimento(p_dec_procedimento.a_dec_procedimento)}
+   |{dec_funcao} p_dec_funcao {-> New a_proc_func.ar_dec_funcao(p_dec_funcao.a_dec_funcao)}
   ;
    
- dec_obj {-> a_dec_obj} = 
- 	{obj} objeto tipo_classe id ponto_virgula {-> New a_dec_obj.a_obj(tipo_classe.a_tipo_classe, id)}
- 	|{obj_reservado} objeto classe_reservada id ponto_virgula {-> New a_dec_obj.a_obj_reservado(classe_reservada, id)}
+ p_dec_obj {-> a_dec_obj} = 
+ 	{obj} objeto p_tipo_classe id ponto_virgula {-> New a_dec_obj.ar_obj(p_tipo_classe.a_tipo_classe, id)}
+ 	|{obj_reservado} objeto classe_reservada id ponto_virgula {-> New a_dec_obj.ar_obj_reservado(classe_reservada, id)}
  ;
  
- dec_var {-> a_dec_var} =
- 	{var} variavel tipo_primitivo id ponto_virgula {-> New a_dec_var.a_var(tipo_primitivo.a_tipo_primitivo, id)}
+ p_dec_var {-> a_dec_var} =
+ 	{var} variavel p_tipo_primitivo id ponto_virgula {-> New a_dec_var.ar_var(p_tipo_primitivo.a_tipo_primitivo, id)}
  ;
  	
- dec_const {-> a_dec_const} = 
- 	{const} constante tipo_primitivo inicializacao ponto_virgula {-> New a_dec_const.a_const(tipo_primitivo.a_tipo_primitivo)}
+ p_dec_const {-> a_dec_const} = 
+ 	{const} constante p_tipo_primitivo p_inicializacao ponto_virgula {-> New a_dec_const.ar_const(p_tipo_primitivo.a_tipo_primitivo)}
  ;
  
- inicializacao {-> a_inicializacao} = 
-    {init} id atribuicao expr {-> New a_inicializacao.a_init(id, expr.a_expr)}
+ p_inicializacao {-> a_inicializacao} = 
+    {init} id atribuicao p_expr {-> New a_inicializacao.ar_init(id, p_expr.a_expr)}
    ;
   
- tipo {-> a_tipo} =
- 	{tipo_classe} tipo_classe {-> New a_tipo.a_tipo_classe(tipo_classe.a_tipo_classe)}
-   |{tipo_primitivo} tipo_primitivo {-> New a_tipo.a_tipo_primitivo(tipo_primitivo.a_tipo_primitivo)}
+ p_tipo {-> a_tipo} =
+ 	{tipo_classe} p_tipo_classe {-> New a_tipo.ar_tipo_classe(p_tipo_classe.a_tipo_classe)}
+   |{tipo_primitivo} p_tipo_primitivo {-> New a_tipo.ar_tipo_primitivo(p_tipo_primitivo.a_tipo_primitivo)}
   ;
  
- tipo_classe {-> a_tipo_classe} = 
- 	{classe} id_class {-> New a_tipo_classe.a_classe(id_class)}
+ p_tipo_classe {-> a_tipo_classe} = 
+ 	{classe} id_class {-> New a_tipo_classe.ar_classe(id_class)}
  ;
  
- tipo_primitivo {-> a_tipo_primitivo}=
- 	{real} tipo_real {-> New a_tipo_primitivo.a_real(tipo_real)}
-   |{bool} tipo_bool {-> New a_tipo_primitivo.a_bool(tipo_bool)}
+ p_tipo_primitivo {-> a_tipo_primitivo}=
+ 	{real} tipo_real {-> New a_tipo_primitivo.ar_real(tipo_real)}
+   |{bool} tipo_bool {-> New a_tipo_primitivo.ar_bool(tipo_bool)}
   ;
    
- dec_procedimento {-> a_dec_procedimento} =
- 	{proced_completo} inicio_proced? procedimento id par_esq parametros? par_dir comando {-> New a_dec_procedimento.a_proced_completo(id, parametros.a_parametros, comando.a_comando)}
-   |{procedimento} procedimento id par_esq parametros? par_dir ponto_virgula {-> New a_dec_procedimento.a_procedimento(id, parametros.a_parametros)}
+ p_dec_procedimento {-> a_dec_procedimento} =
+ 	{proced_completo} inicio_proced? procedimento id par_esq p_parametros? par_dir p_comando {-> New a_dec_procedimento.ar_proced_completo(id, p_parametros.a_parametros, p_comando.a_comando)}
+   |{procedimento} procedimento id par_esq p_parametros? par_dir ponto_virgula {-> New a_dec_procedimento.ar_procedimento(id, p_parametros.a_parametros)}
    ;
  
- dec_funcao {-> a_dec_funcao } =
- 	{funcao_completa} funcao tipo id par_esq parametros? par_dir expr {-> New a_dec_funcao.a_funcao_completa(tipo.a_tipo, id, parametros.a_parametros, expr.a_expr )}
-   |{funcao} funcao tipo id par_esq parametros? par_dir ponto_virgula {-> New a_dec_funcao.a_funcao(tipo.a_tipo, id, parametros.a_parametros)};
+ p_dec_funcao {-> a_dec_funcao } =
+ 	{funcao_completa} funcao p_tipo id par_esq p_parametros? par_dir p_expr {-> New a_dec_funcao.ar_funcao_completa(p_tipo.a_tipo, id, p_parametros.a_parametros, p_expr.a_expr )}
+   |{funcao} funcao p_tipo id par_esq p_parametros? par_dir ponto_virgula {-> New a_dec_funcao.ar_funcao(p_tipo.a_tipo, id, p_parametros.a_parametros)};
  
- parametros {-> a_parametros} =
-   {params} parametro params* {-> New a_parametros.a_params(parametro.a_parametro, [params.a_params])};
+ p_parametros {-> a_parametros} =
+   {params} p_parametro p_params* {-> New a_parametros.ar_params(p_parametro.a_parametro, [p_params.a_params])};
 	
- params {-> a_params} =
- 	{lista} barra parametro {-> New a_params.a_lista(parametro.a_parametro)}
+ p_params {-> a_params} =
+ 	{lista} barra p_parametro {-> New a_params.ar_lista(p_parametro.a_parametro)}
  ;
  	
- parametro {-> a_parametro} = 
- 	{param} tipo id {-> New a_parametro.a_param(tipo.a_tipo, id)}
+ p_parametro {-> a_parametro} = 
+ 	{param} p_tipo id {-> New a_parametro.ar_param(p_tipo.a_tipo, id)}
  ;
  
- comando {-> a_comando}=
-    {se} se par_esq expr_inversora par_dir comando {-> New a_comando.a_se(expr_inversora.a_expr_inversora, comando.a_comando)}
-   |{se_senao} se par_esq expr_inversora par_dir comando_dois senao comando {-> New a_comando.a_se_senao(expr_inversora.a_expr_inversora, comando_dois.a_comando_dois,comando.a_comando)}
-   |{enquanto} enquanto par_esq expr_inversora par_dir comando {-> New a_comando.a_enquanto(expr_inversora.a_expr_inversora, comando.a_comando)}
-   |{atbr} id atribuicao expr_inversora ponto_virgula {-> New a_comando.a_atbr(id, expr_inversora.a_expr_inversora)}
-   |{chamada_metd} id ponto chamada ponto_virgula {-> New a_comando.a_chamada_metd(id, chamada.a_chamada)}
-   |{bloco} bloco {-> New a_comando.a_bloco(bloco.a_bloco)};
+ p_comando {-> a_comando}=
+    {se} se par_esq p_expr_ini par_dir p_comando {-> New a_comando.ar_se(p_expr_ini.a_expr_ini, p_comando.a_comando)}
+   |{se_senao} se par_esq p_expr_ini par_dir p_comando_dois senao p_comando {-> New a_comando.ar_se_senao(p_expr_ini.a_expr_ini, p_comando_dois.a_comando_dois,p_comando.a_comando)}
+   |{enquanto} enquanto par_esq p_expr_ini par_dir p_comando {-> New a_comando.ar_enquanto(p_expr_ini.a_expr_ini, p_comando.a_comando)}
+   |{atbr} id atribuicao p_expr_ini ponto_virgula {-> New a_comando.ar_atbr(id, p_expr_ini.a_expr_ini)}
+   |{chamada_metd} id ponto p_chamada ponto_virgula {-> New a_comando.ar_chamada_metd(id, p_chamada.a_chamada)}
+   |{bloco} p_bloco {-> New a_comando.ar_bloco(p_bloco.a_bloco)};
    
- comando_dois {-> a_comando_dois}=
- 	{se_senao} se par_esq expr par_dir [esq]:comando_dois senao [dir]:comando_dois {-> New a_comando_dois.a_se_senao(expr.a_expr, esq.a_comando_dois,dir.a_comando_dois)}
-   |{bloco} bloco {-> New a_comando_dois.a_bloco(bloco.a_bloco)};
+ p_comando_dois {-> a_comando_dois}=
+ 	{se_senao} se par_esq p_expr par_dir [esq]:p_comando_dois senao [dir]:p_comando_dois {-> New a_comando_dois.ar_se_senao(p_expr.a_expr, esq.a_comando_dois,dir.a_comando_dois)}
+   |{bloco} p_bloco {-> New a_comando_dois.ar_bloco(p_bloco.a_bloco)};
    	
- bloco {-> a_bloco} = 
- 	{iniciar_bloco}inicio atributos* comando* fim {-> New a_bloco.a_iniciar_bloco([atributos.a_atributos], [comando.a_comando])}
+ p_bloco {-> a_bloco} = 
+ 	{iniciar_bloco}inicio p_atributos* p_comando* fim {-> New a_bloco.ar_iniciar_bloco([p_atributos.a_atributos], [p_comando.a_comando])}
  ;
  
- atributos {-> a_atributos} =
- 	{dec_obj} dec_obj {-> New a_atributos.a_dec_obj(dec_obj.a_dec_obj)}
-   |{dec_var} dec_var {-> New a_atributos.a_dec_var(dec_var.a_dec_var)}
-   |{dec_const} dec_const {-> New a_atributos.a_dec_const(dec_const.a_dec_const)};
+ p_atributos {-> a_atributos} =
+ 	{dec_obj} p_dec_obj {-> New a_atributos.ar_dec_obj(p_dec_obj.a_dec_obj)}
+   |{dec_var} p_dec_var {-> New a_atributos.ar_dec_var(p_dec_var.a_dec_var)}
+   |{dec_const} p_dec_const {-> New a_atributos.ar_dec_const(p_dec_const.a_dec_const)};
  
  
- expr_inversora {-> a_expr_inversora} =
- 	{expr} expr {-> New a_expr_inversora.a_expr(expr.a_expr)}
- 	|{inversor} menos expr {-> New a_expr_inversora.a_expr(expr.a_expr)};
+ p_expr_ini {-> a_expr_ini} =
+ 	{expr} p_expr {-> New a_expr_ini.ar_expr(p_expr.a_expr)}
+ 	|{inversor} menos p_expr {-> New a_expr_ini.ar_inversor(p_expr.a_expr)};
 
  	
-expr {-> a_expr} =
- 	{expr_nivel_um} expr_nivel_um {-> expr_nivel_um.a_expr}
-   |{bloco_exp} bloco_exp {-> New a_expr.a_bloco_exp(bloco_exp.a_bloco_exp)};
+p_expr {-> a_expr} =
+ 	{expr_nivel_um} p_expr_nivel_um {-> p_expr_nivel_um.a_expr}
+   |{bloco_exp} p_bloco_exp {-> New a_expr.ar_bloco_exp(p_bloco_exp.a_bloco_exp)};
 
- expr_nivel_um {-> a_expr} =
- 	{expr_nivel_dois} expr_nivel_dois {-> expr_nivel_dois.a_expr}
- 	|{e_logico} [esq]:expr_nivel_dois e_logico [dir]:expr_nivel_dois {-> New a_expr.a_e_logico(esq.a_expr, dir.a_expr)}
- 	|{ou_logico} [esq]:expr_nivel_dois ou_logico [dir]:expr_nivel_dois {-> New a_expr.a_ou_logico(esq.a_expr, dir.a_expr)};
+ p_expr_nivel_um {-> a_expr} =
+ 	{expr_nivel_dois} p_expr_nivel_dois {-> p_expr_nivel_dois.a_expr}
+ 	|{e_logico} [esq]:p_expr_nivel_dois e_logico [dir]:p_expr_nivel_dois {-> New a_expr.ar_e_logico(esq.a_expr, dir.a_expr)}
+ 	|{ou_logico} [esq]:p_expr_nivel_dois ou_logico [dir]:p_expr_nivel_dois {-> New a_expr.ar_ou_logico(esq.a_expr, dir.a_expr)};
  	
-  expr_nivel_dois {-> a_expr} =
- 	{expr_nivel_tres} expr_nivel_tres {-> expr_nivel_tres.a_expr}
-   |{igual} [esq]:expr_nivel_tres igual [dir]:expr_nivel_tres {-> New a_expr.a_igual(esq.a_expr, dir.a_expr)};
+  p_expr_nivel_dois {-> a_expr} =
+ 	{expr_nivel_tres} p_expr_nivel_tres {-> p_expr_nivel_tres.a_expr}
+   |{igual} [esq]:p_expr_nivel_tres igual [dir]:p_expr_nivel_tres {-> New a_expr.ar_igual(esq.a_expr, dir.a_expr)};
  	
- expr_nivel_tres {-> a_expr} =
- 	{expr_nivel_quatro} expr_nivel_quatro {-> expr_nivel_quatro.a_expr}
-   |{menor} [esq]:expr_nivel_quatro menor [dir]:expr_nivel_quatro {-> New a_expr.a_menor(esq.a_expr, dir.a_expr)}
-   |{menor_igual} [esq]:expr_nivel_quatro menor_igual [dir]:expr_nivel_quatro {-> New a_expr.a_menor_igual(esq.a_expr, dir.a_expr)};
+ p_expr_nivel_tres {-> a_expr} =
+ 	{expr_nivel_quatro} p_expr_nivel_quatro {-> p_expr_nivel_quatro.a_expr}
+   |{menor} [esq]:p_expr_nivel_quatro menor [dir]:p_expr_nivel_quatro {-> New a_expr.ar_menor(esq.a_expr, dir.a_expr)}
+   |{menor_igual} [esq]:p_expr_nivel_quatro menor_igual [dir]:p_expr_nivel_quatro {-> New a_expr.ar_menor_igual(esq.a_expr, dir.a_expr)};
     	
- expr_nivel_quatro {-> a_expr} =
- 	{expr_nivel_cinco} expr_nivel_cinco {-> expr_nivel_cinco.a_expr}
-   |{soma} [esq]:expr_nivel_cinco soma [dir]:expr_nivel_cinco {-> New a_expr.a_soma(esq.a_expr, dir.a_expr)}
-   |{menos} [esq]:expr_nivel_cinco menos [dir]:expr_nivel_cinco {-> New a_expr.a_menos(esq.a_expr, dir.a_expr)};
+ p_expr_nivel_quatro {-> a_expr} =
+ 	{expr_nivel_cinco} p_expr_nivel_cinco {-> p_expr_nivel_cinco.a_expr}
+   |{soma} [esq]:p_expr_nivel_cinco soma [dir]:p_expr_nivel_cinco {-> New a_expr.ar_soma(esq.a_expr, dir.a_expr)}
+   |{menos} [esq]:p_expr_nivel_cinco menos [dir]:p_expr_nivel_cinco {-> New a_expr.ar_menos(esq.a_expr, dir.a_expr)};
    
-  expr_nivel_cinco {-> a_expr} =
- 	{expr_nivel_seis} expr_nivel_seis {-> expr_nivel_seis.a_expr}
-   |{negacao} negacao expr_nivel_seis {-> expr_nivel_seis.a_expr};
+  p_expr_nivel_cinco {-> a_expr} =
+ 	{expr_nivel_seis} p_expr_nivel_seis {-> p_expr_nivel_seis.a_expr}
+   |{negacao} negacao p_expr_nivel_seis {-> p_expr_nivel_seis.a_expr};
    
- expr_nivel_seis {-> a_expr} =
- 	{expr_nivel_sete} expr_nivel_sete {-> expr_nivel_sete.a_expr}
-   |{mod} [esq]:expr_nivel_seis mod [dir]:expr_nivel_sete {-> New a_expr.a_mod(esq.a_expr, dir.a_expr)}; 
+ p_expr_nivel_seis {-> a_expr} =
+ 	{expr_nivel_sete} p_expr_nivel_sete {-> p_expr_nivel_sete.a_expr}
+   |{mod} [esq]:p_expr_nivel_seis mod [dir]:p_expr_nivel_sete {-> New a_expr.ar_mod(esq.a_expr, dir.a_expr)}; 
  	
- expr_nivel_sete {-> a_expr} =
- 	{expr_nivel_oito} expr_nivel_oito {-> expr_nivel_oito.a_expr}
-   |{mult} [esq]:expr_nivel_sete mult [dir]:expr_nivel_oito {-> New a_expr.a_mult(esq.a_expr, dir.a_expr)}
-   |{div} [esq]:expr_nivel_sete div [dir]:expr_nivel_oito {-> New a_expr.a_div(esq.a_expr, dir.a_expr)};
+ p_expr_nivel_sete {-> a_expr} =
+ 	{expr_nivel_oito} p_expr_nivel_oito {-> p_expr_nivel_oito.a_expr}
+   |{mult} [esq]:p_expr_nivel_sete mult [dir]:p_expr_nivel_oito {-> New a_expr.ar_mult(esq.a_expr, dir.a_expr)}
+   |{div} [esq]:p_expr_nivel_sete div [dir]:p_expr_nivel_oito {-> New a_expr.ar_div(esq.a_expr, dir.a_expr)};
    
    
- expr_nivel_oito {-> a_expr}=
- 	{identifier} id {-> New a_expr.a_identifier(id)}
-   |{n_real} numero_real {-> New a_expr.a_n_real(numero_real)}
-   |{chamada_metd} id ponto chamada ponto_virgula {-> New a_expr.a_chamada_metd(id, chamada.a_chamada)}
-   |{chamada_atributo} id ponto atributo ponto_virgula {-> New a_expr.a_chamada_atributo(id, atributo.a_atributo)}
-   |{verdade} verdade {-> New a_expr.a_verdade(verdade)}
-   |{falso} falso {-> New a_expr.a_falso(falso)}
-   |{par} par_esq expr par_dir {-> expr.a_expr};
+ p_expr_nivel_oito {-> a_expr}=
+ 	{identifier} id {-> New a_expr.ar_identifier(id)}
+   |{n_real} numero_real {-> New a_expr.ar_n_real(numero_real)}
+   |{chamada_metd} id ponto p_chamada ponto_virgula {-> New a_expr.ar_chamada_metd(id, p_chamada.a_chamada)}
+   |{chamada_atributo} id ponto p_atributo ponto_virgula {-> New a_expr.ar_chamada_atributo(id, p_atributo.a_atributo)}
+   |{verdade} verdade {-> New a_expr.ar_verdade(verdade)}
+   |{falso} falso {-> New a_expr.ar_falso(falso)}
+   |{par} par_esq p_expr par_dir {-> p_expr.a_expr};
     
     
- bloco_exp {-> a_bloco_exp}=
- 	{bloco} inicio dec_const* expr fim {-> New a_bloco_exp.a_bloco([dec_const.a_dec_const], expr.a_expr)};
+ p_bloco_exp {-> a_bloco_exp}=
+ 	{bloco} inicio p_dec_const* p_expr fim {-> New a_bloco_exp.ar_bloco([p_dec_const.a_dec_const], p_expr.a_expr)};
 	
- chamada {-> a_chamada}= 
- 	{chamada_metodo} id par_esq lista_expr* par_dir {-> New a_chamada.a_chamada_metodo(id, [lista_expr.a_lista_expr])}
- 	|{reservado_le}   metodo_le par_esq lista_expr* par_dir {-> New a_chamada.a_reservado_le([lista_expr.a_lista_expr])}
- 	|{reservado_imprime} metodo_imprime par_esq lista_expr* par_dir {-> New a_chamada.a_reservado_imprime([lista_expr.a_lista_expr])}
+ p_chamada {-> a_chamada}= 
+ 	{chamada_metodo} id par_esq p_lista_expr* par_dir {-> New a_chamada.ar_chamada_metodo(id, [p_lista_expr.a_lista_expr])}
+ 	|{reservado_le}   metodo_le par_esq p_lista_expr* par_dir {-> New a_chamada.ar_reservado_le([p_lista_expr.a_lista_expr])}
+ 	|{reservado_imprime} metodo_imprime par_esq p_lista_expr* par_dir {-> New a_chamada.ar_reservado_imprime([p_lista_expr.a_lista_expr])}
  	;
  	
- atributo {-> a_atributo} =
- 	{id} id {-> New a_atributo.a_id(id)};
+ p_atributo {-> a_atributo} =
+ 	{id} id {-> New a_atributo.ar_id(id)};
  	
- lista_expr {-> a_lista_expr}=
-   {expressoes} expr exprs* {-> New a_lista_expr.a_expressoes(expr.a_expr, [exprs.a_exprs])}
+ p_lista_expr {-> a_lista_expr}=
+   {expressoes} p_expr p_exprs* {-> New a_lista_expr.ar_expressoes(p_expr.a_expr, [p_exprs.a_exprs])}
   ;
  	
- exprs {-> a_exprs}= 
- 	{lista} barra expr {-> New a_exprs.a_lista(expr.a_expr)};
+ p_exprs {-> a_exprs}= 
+ 	{lista} barra p_expr {-> New a_exprs.ar_lista(p_expr.a_expr)};
  	
  
  
@@ -256,125 +256,125 @@ expr {-> a_expr} =
  a_programa = a_familia? a_def_classe*;
 
  a_familia = 
-	{a_not_empty} a_relacao a_lista_relacoes*;
+	{ar_not_empty} a_relacao a_lista_relacoes*;
 
  a_lista_relacoes =
-	{a_relacoes} a_relacao;
+	{ar_relacoes} a_relacao;
 	
  a_relacao = 
-	{a_rel} [esq]:id_class [dir]:id_class;
+	{ar_rel} [esq]:id_class [dir]:id_class;
 
  a_def_classe =
-	{a_defini} id_class a_atributos* a_metodos*;
+	{ar_defini} id_class a_atributos* a_metodos*;
 
  a_metodos =
-	{a_proc_func} a_proc_func*;
+	{ar_proc_func} a_proc_func*;
 
  a_proc_func =
-	{a_dec_procedimento} a_dec_procedimento
-	|{a_dec_funcao} a_dec_funcao;
+	{ar_dec_procedimento} a_dec_procedimento
+	|{ar_dec_funcao} a_dec_funcao;
 	
  a_dec_obj =
-	{a_obj} a_tipo_classe id
-	|{a_obj_reservado} classe_reservada id;
+	{ar_obj} a_tipo_classe id
+	|{ar_obj_reservado} classe_reservada id;
 	
  a_dec_var =
-	{a_var} a_tipo_primitivo id;
+	{ar_var} a_tipo_primitivo id;
 	
  a_dec_const =
-	{a_const} a_tipo_primitivo;
+	{ar_const} a_tipo_primitivo;
 	
  a_inicializacao =
-	{a_init} id a_expr;
+	{ar_init} id a_expr;
 	
  a_tipo =
-	{a_tipo_classe} a_tipo_classe
-	|{a_tipo_primitivo} a_tipo_primitivo;
+	{ar_tipo_classe} a_tipo_classe
+	|{ar_tipo_primitivo} a_tipo_primitivo;
 	
  a_tipo_classe =
-	{a_classe} id_class;
+	{ar_classe} id_class;
 	
  a_tipo_primitivo =
-	{a_real} tipo_real
-	|{a_bool} tipo_bool;
+	{ar_real} tipo_real
+	|{ar_bool} tipo_bool;
 
  a_dec_procedimento =
-	{a_proced_completo} id a_parametros? a_comando
-	|{a_procedimento} id a_parametros?;
+	{ar_proced_completo} id a_parametros? a_comando
+	|{ar_procedimento} id a_parametros?;
 
  a_dec_funcao =
-	{a_funcao_completa} a_tipo id a_parametros? a_expr
-	|{a_funcao} a_tipo id a_parametros?;
+	{ar_funcao_completa} a_tipo id a_parametros? a_expr
+	|{ar_funcao} a_tipo id a_parametros?;
 
 
  a_parametros =
-	{a_params} a_parametro a_params*;
+	{ar_params} a_parametro a_params*;
 	
  a_params =
-	{a_lista} a_parametro;
+	{ar_lista} a_parametro;
 	
  a_parametro =
- 	{a_param} a_tipo id;
+ 	{ar_param} a_tipo id;
 
  a_comando =
-	{a_se} a_expr_inversora a_comando
-	|{a_se_senao} a_expr_inversora a_comando_dois a_comando
-	|{a_enquanto} a_expr_inversora a_comando
-	|{a_atbr} id a_expr_inversora
-	|{a_chamada_metd} id a_chamada
-	|{a_bloco} a_bloco;
+	{ar_se} a_expr_ini a_comando
+	|{ar_se_senao} a_expr_ini a_comando_dois a_comando
+	|{ar_enquanto} a_expr_ini a_comando
+	|{ar_atbr} id a_expr_ini
+	|{ar_chamada_metd} id a_chamada
+	|{ar_bloco} a_bloco;
 	
  a_comando_dois =
-	{a_se_senao} a_expr [esq]:a_comando_dois [dir]:a_comando_dois
-	|{a_bloco} a_bloco;
+	{ar_se_senao} a_expr [esq]:a_comando_dois [dir]:a_comando_dois
+	|{ar_bloco} a_bloco;
 
  a_bloco =
-	{a_iniciar_bloco} a_atributos* a_comando*;
+	{ar_iniciar_bloco} a_atributos* a_comando*;
 	
  a_atributos =
-	{a_dec_obj} a_dec_obj
-	|{a_dec_var} a_dec_var
-	|{a_dec_const} a_dec_const;
+	{ar_dec_obj} a_dec_obj
+	|{ar_dec_var} a_dec_var
+	|{ar_dec_const} a_dec_const;
 
- a_expr_inversora =
-	{a_expr} a_expr
-	|{a_inversor} a_expr;
+ a_expr_ini =
+	{ar_expr} a_expr
+	|{ar_inversor} a_expr;
 
  a_expr = 
-	{a_identifier} id
-	|{a_n_real} numero_real
-	|{a_verdade} verdade
-	|{a_falso} falso
-	|{a_chamada_atributo} id a_atributo
-	|{a_chamada_metd} id a_chamada
-	|{a_soma} [esq]:a_expr [dir]:a_expr
-	|{a_menos} [esq]:a_expr [dir]:a_expr
-	|{a_mult} [esq]:a_expr [dir]:a_expr
-	|{a_div} [esq]:a_expr [dir]:a_expr
-	|{a_mod} [esq]:a_expr [dir]:a_expr
-	|{a_igual} [esq]:a_expr [dir]:a_expr
-	|{a_e_logico} [esq]:a_expr [dir]:a_expr
-	|{a_ou_logico} [esq]:a_expr [dir]:a_expr
-	|{a_menor} [esq]:a_expr [dir]:a_expr
-	|{a_menor_igual} [esq]:a_expr [dir]:a_expr
-	|{a_bloco_exp} a_bloco_exp;
+	{ar_identifier} id
+	|{ar_n_real} numero_real
+	|{ar_verdade} verdade
+	|{ar_falso} falso
+	|{ar_chamada_atributo} id a_atributo
+	|{ar_chamada_metd} id a_chamada
+	|{ar_soma} [esq]:a_expr [dir]:a_expr
+	|{ar_menos} [esq]:a_expr [dir]:a_expr
+	|{ar_mult} [esq]:a_expr [dir]:a_expr
+	|{ar_div} [esq]:a_expr [dir]:a_expr
+	|{ar_mod} [esq]:a_expr [dir]:a_expr
+	|{ar_igual} [esq]:a_expr [dir]:a_expr
+	|{ar_e_logico} [esq]:a_expr [dir]:a_expr
+	|{ar_ou_logico} [esq]:a_expr [dir]:a_expr
+	|{ar_menor} [esq]:a_expr [dir]:a_expr
+	|{ar_menor_igual} [esq]:a_expr [dir]:a_expr
+	|{ar_bloco_exp} a_bloco_exp;
 	
  a_bloco_exp =
-	{a_bloco} a_dec_const* a_expr;
+	{ar_bloco} a_dec_const* a_expr;
 
  a_chamada =
-	{a_chamada_metodo} id a_lista_expr*
-	|{a_reservado_le} a_lista_expr*
-	|{a_reservado_imprime} a_lista_expr*; 	
+	{ar_chamada_metodo} id a_lista_expr*
+	|{ar_reservado_le} a_lista_expr*
+	|{ar_reservado_imprime} a_lista_expr*; 	
 	
  a_atributo = 
-	{a_id} id;
+	{ar_id} id;
 	
  a_lista_expr =
-	{a_expressoes} a_expr a_exprs*;
+	{ar_expressoes} a_expr a_exprs*;
 
  a_exprs = 
-	{a_lista} a_expr;
+	{ar_lista} a_expr;
  	
  
  	
