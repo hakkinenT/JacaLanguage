@@ -1,3 +1,5 @@
+classe _Gerente filha da classe _Funcionario & classe _Entregador filha da classe _Funcionario;
+
 classe _Principal
 início
 	objeto _ES interface;
