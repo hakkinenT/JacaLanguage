@@ -1,56 +1,50 @@
+{Programa para calcular o salário de dois tipos de funcionários: Gerente e entregador}
 
-{Programa para calcular o valor das compras numa floricultura,
-levando em conta descontos baseados na quantidade
-e na forma de pagamento}
+classe _Gerente filha da classe _Funcionario & classe _Entregador filha da classe _Funcionario;
 
-funcao real dinheiro_debito () (valor - ( quantidade / 2,0 ))
+classe _Funcionario
+início
+	var real salário;
+
+	procedimento setSalario(real novo_salário|real i| real j)
+		salário := novo_salário;
+
+	função real calcularSalario();
+fim
+
+classe _Gerente
+início
+	var real bônus;
+
+	procedimento setBônus(real novo_bônus)
+		bônus := novo_bônus;
+
+	#O salário final do gerente é a soma do salário com o bônus
+	função real calcularSalario() (salário + bônus)
+fim
+
+classe _Entregador
+início
+	var real horas_rodadas;
+	var real valor_hora;
+
+	procedimento setHoras_Rodadas(real horas)
+		horas_rodadas := horas;
+
+	procedimento setValor_Hora(real novo_valor_hora)
+		valor_hora := novo_valor_hora;
+
+	#O salário final do entregador é a quantidade de horas rodadas multiplicada pelo valor da hora
+	função real calcularSalario() (horas_rodadas * valor_hora)
+fim
 
 classe _Principal
-inicio
-
+início
 	objeto _ES interface;
+
 	>>> procedimento principal ()
-	inicio	
-		var real quantidade;
-		var real tipo_pag; 
-		var real tipo_flor;
-		var real valor;
-		var bool fimdesemana;
-
-	quantidade := interface.le();
-	tipo_flor := interface.le();
-		enquanto (quantidade < 0,0 ou tipo_flor < 1,0 ou 4,0 < tipo_flor)
-		inicio
-			quantidade := interface.le();
-			tipo_flor := interface.le();
-		fim
-		se (tipo_flor == 1,0 e 31,0 <= quantidade)
-			valor := (quantidade * 3,50)
-		se (tipo_flor == 1,0 e quantidade < 30,0)
-			valor := (quantidade * 4,0)
+	início
+		objeto _Gerente gerente;
 		
-		se (tipo_flor == 2,0)
-			valor := (quantidade * 5,0)
-
-		se (tipo_flor == 3,0 e quantidade < 20,0)
-			valor := (quantidade * 7,50)
-		se (tipo_flor == 3,0 e 21,0 <= quantidade)
-			valor := (quantidade * 7,0)
-		senao 
-		inicio
-			valor := (quantidade * 15,0)
-		fim
-
-	tipo_pag := interface.le() #Para saber se irÃ¡ usar crÃ©dito ou dÃ©bito/dinheiro
-	se (tipo_pag == 0,0)
-	inicio
-		var real valor_final;
-		valor_final := dinheiro_debito();
-		interface.imprime(valor_final);
-	fim	
-	senao 
-	inicio
-		interface.imprime(valor);
 	fim
-
 fim

@@ -14,7 +14,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		try {
-			String arquivo = "codigo/exemplo.jaca";
+			String arquivo = "codigo/salario.jaca";
 			
 			Lexer lex = new Lexer(new PushbackReader(new FileReader(arquivo), 1024));
 			
@@ -30,7 +30,7 @@ public class Main {
 			   //Imprime árvore na saída padrão
 			   //tree.apply(new ASTPrinter());
 			   //Imprime árvore em interface gráfica
-			   tree.apply(new ASTDisplay());
+			   //tree.apply(new ASTDisplay());
 			   tree.apply(new Semantico());
 			
 		}catch(Exception e) {

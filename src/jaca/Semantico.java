@@ -69,13 +69,19 @@ import jaca.node.AArTipoClasseATipo;
 import jaca.node.AArTipoPrimitivoATipo;
 import jaca.node.AArVarADecVar;
 import jaca.node.AArVerdadeAExpr;
+import jaca.node.PAAtributos;
+import jaca.node.PADecProcedimento;
 import jaca.node.PADefClasse;
 import jaca.node.PAListaRelacoes;
+import jaca.node.PAMetodos;
+import jaca.node.PAParametro;
+import jaca.node.PAParams;
 import jaca.node.Start;
 
 public class Semantico extends DepthFirstAdapter{
-	Stack<Hashtable<String, String>> stack = new Stack<Hashtable<String, String>>();
+	TabelaDeSimbolos tabelaDeSimbolos = new TabelaDeSimbolos();
 	Hashtable<String, String> escopo_principal = new Hashtable<String, String>();
+	Hashtable<String,String> newEscopo = new Hashtable<String, String>();
 
 	@Override
 	public void inStart(Start node) {
@@ -92,11 +98,10 @@ public class Semantico extends DepthFirstAdapter{
 		super.outStart(node);
 	}
 
-	/*@Override
+	@Override
 	public void outAAPrograma(AAPrograma node) {
-		
 		super.outAAPrograma(node);
-	}*/
+	}
 
 	@Override
 	public void outAArNotEmptyAFamilia(AArNotEmptyAFamilia node) {
@@ -113,10 +118,14 @@ public class Semantico extends DepthFirstAdapter{
 		List<PAListaRelacoes> list = new ArrayList<PAListaRelacoes>(node.getAListaRelacoes());
 		for(PAListaRelacoes e : list) {
 			splitedString = e.toString().split(" ");
-			key = splitedString[0];
-			value = splitedString[1].replace("_", "").toLowerCase();
+			key = splitedString[0].trim();
+			value = splitedString[1].replace("_", "").toLowerCase().trim();
 			escopo_principal.put(key, value);
 		}
+		
+		tabelaDeSimbolos.add(escopo_principal);
+		
+		//tabelaDeSimbolos.print();
 		super.outAArNotEmptyAFamilia(node);
 	}
 
@@ -134,26 +143,42 @@ public class Semantico extends DepthFirstAdapter{
 
 	@Override
 	public void outAArDefiniADefClasse(AArDefiniADefClasse node) {
-		System.out.println(node.getIdClass());
-		System.out.println(node.getAAtributos());
-		System.out.println(node.getAMetodos());
+		
+		String[] splitedString;
+		String key;
+		String value;
+		
+		String idclass = node.getIdClass().toString().trim();
+		
+		newEscopo.put(idclass, "class");
+		
+		List<PAAtributos> atributos = new ArrayList<PAAtributos>(node.getAAtributos());
+		for(PAAtributos atributo : atributos) {
+			splitedString = atributo.toString().split(" ");
+			key = splitedString[1].trim();
+			value = splitedString[0].trim();
+			newEscopo.put(key, value);
+			//System.out.println(atributo.toString());
+		}
+		
 		super.outAArDefiniADefClasse(node);
 	}
 
 	@Override
 	public void outAArProcFuncAMetodos(AArProcFuncAMetodos node) {
+		
 		// TODO Auto-generated method stub
 		super.outAArProcFuncAMetodos(node);
 	}
 
 	@Override
 	public void outAArDecProcedimentoAProcFunc(AArDecProcedimentoAProcFunc node) {
-		// TODO Auto-generated method stub
 		super.outAArDecProcedimentoAProcFunc(node);
 	}
 
 	@Override
 	public void outAArDecFuncaoAProcFunc(AArDecFuncaoAProcFunc node) {
+		
 		// TODO Auto-generated method stub
 		super.outAArDecFuncaoAProcFunc(node);
 	}
@@ -220,18 +245,40 @@ public class Semantico extends DepthFirstAdapter{
 
 	@Override
 	public void outAArProcedCompletoADecProcedimento(AArProcedCompletoADecProcedimento node) {
-		// TODO Auto-generated method stub
+		String[] splitedString = null;
+		
+		newEscopo.put(node.getId().toString().trim(), "procedimento");
+		
+		
+		if(node.getAParametros() != null) {
+			splitedString = node.getAParametros().toString().split(" ");
+		}
+		
+		if(splitedString != null) {
+			for(int i = 0; i < splitedString.length; i = i+2) {
+				if((i+1) != splitedString.length) {
+					newEscopo.put(splitedString[i+1], splitedString[i]);
+				}
+				
+			}
+		}
+		
+		System.out.println(newEscopo);
+		
+		
 		super.outAArProcedCompletoADecProcedimento(node);
 	}
 
 	@Override
 	public void outAArProcedimentoADecProcedimento(AArProcedimentoADecProcedimento node) {
+		
 		// TODO Auto-generated method stub
 		super.outAArProcedimentoADecProcedimento(node);
 	}
 
 	@Override
 	public void outAArFuncaoCompletaADecFuncao(AArFuncaoCompletaADecFuncao node) {
+		
 		// TODO Auto-generated method stub
 		super.outAArFuncaoCompletaADecFuncao(node);
 	}
@@ -244,12 +291,14 @@ public class Semantico extends DepthFirstAdapter{
 
 	@Override
 	public void outAArParamsAParametros(AArParamsAParametros node) {
+		
 		// TODO Auto-generated method stub
 		super.outAArParamsAParametros(node);
 	}
 
 	@Override
 	public void outAArListaAParams(AArListaAParams node) {
+		
 		// TODO Auto-generated method stub
 		super.outAArListaAParams(node);
 	}
