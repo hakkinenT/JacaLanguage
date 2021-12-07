@@ -15,6 +15,7 @@ fim
 classe _Gerente
 início
 	var real bônus;
+	var real salário;
 
 	procedimento setBônus(real novo_bônus)
 		bônus := novo_bônus;

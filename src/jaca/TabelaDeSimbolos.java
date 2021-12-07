@@ -22,4 +22,27 @@ public class TabelaDeSimbolos {
 			System.out.println(hash);
 		}
 	}
+	
+	public boolean search(String key) {
+		for(Hashtable<String, String> hash : this.tabelaDeSimbolos) {
+			if(hash.containsKey(key)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public String searchType(String key) {
+		
+		for(Hashtable<String, String> hash : this.tabelaDeSimbolos) {
+			if(search(key)) {
+				return hash.get(key);
+			}
+		}
+		
+		return null;
+	}
+	
+	
 }
